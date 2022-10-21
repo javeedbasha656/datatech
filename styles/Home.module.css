@@ -1,0 +1,17 @@
+.containerLayout {
+
+  padding: 24px 16px 0;
+  padding: 20px 15px 20px;
+  background-color: var(--white);
+}
+
+#dark .dark-menu .container {
+  background: var(--dark);
+  color: #fff;
+}
+
+#light .light-menu .container {
+  background: var(--white);
+  color: #333;
+}
+

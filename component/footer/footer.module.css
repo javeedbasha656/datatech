@@ -1,0 +1,28 @@
+.div_left_align{
+    float:left;
+    padding-right: 15px;
+    display: inline-block;
+    margin-bottom: -20px;
+}
+
+.div_right_align{
+    float:right;
+    padding-right: 15px;
+    display: inline-block;
+}
+
+.logoAlign{
+    display: inline-block;
+}
+
+.itemsAlign{
+    display: inline-block;
+    padding-right: 20px;
+    position: relative;
+    top: -9px;
+}
+
+.itemsAlign li{
+    display: inline-block;
+    margin-left: 10px;
+}
