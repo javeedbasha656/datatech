@@ -1,0 +1,1 @@
+export const DomainAPI = 'https://jsonplaceholder.typicode.com/users'

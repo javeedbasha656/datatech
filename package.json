@@ -1,0 +1,25 @@
+{
+  "name": "next-learn",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "antd": "^4.23.3",
+    "bootstrap": "^5.2.2",
+    "classnames": "^2.3.2",
+    "next": "12.3.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-tiny-fab": "^4.0.4",
+    "sunflower-antd": "^1.0.0-beta.3"
+  },
+  "devDependencies": {
+    "eslint": "8.24.0",
+    "eslint-config-next": "12.3.1"
+  }
+}
