@@ -1,8 +1,6 @@
 import { Fab, Action } from 'react-tiny-fab';
 import 'react-tiny-fab/dist/styles.css';
-import {
-    PlusCircleOutlined
-} from '@ant-design/icons';
+import { PlusCircleOutlined } from '@ant-design/icons';
 import Router from 'next/router'
 import Image from 'next/image';
 import Approve from '../../public/images/approve.png'
