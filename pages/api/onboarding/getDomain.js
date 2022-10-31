@@ -1,8 +1,6 @@
-import { getSession } from 'next-auth/react'
-// import {PrismaClient} from '@prisma/client'
-// import { MongoClient } from 'mongodb'
-const sql = require('mssql')
-// const prisma = new PrismaClient
+// import { getSession } from 'next-auth/react'
+const _ = require('lodash');
+import { dbConnection } from '../../../services/db_connections'
 
 
 async function handler(req, res) {
@@ -11,30 +9,15 @@ async function handler(req, res) {
     //     res.status(401).json({ error: 'Unauthenticated user' })
     // }
     console.log("Process: ", process.env.DB_URL)
-    let getData = ''
 
-    // Mongo Connection test
-    // -----------------------
-    // const client = await MongoClient.connect('mongodb+srv://skadf_svc:skadf_2022@cluster0.jx4jjvh.mongodb.net/?retryWrites=true&w=majority')
-    // const db = client.db()
-    // getData = await db.collection('emails').find().toArray()
-    // client.close()
+    let query = `select * from SourceSetup.InfoDomain`
+    let domainList = await dbConnection(query)
 
-    // Sql Connection
-    // ----------------
-   
-    try {
-        await sql.connect('Server=itsfi-tr-mi-sql01.e57c104c9ca0.database.windows.net;Database=ITSFIDataFramework;User Id=skadf_svc;Password=skadf_2022;Encrypt=true')
-        const result = await sql.query`select * from InfoDomain`
-        console.log("DbResult: ",result)
-    } catch (err) {
-        console.log(err)
-        // ... error checks
+    if (_.isArray(domainList) && domainList.length > 0) {
+        res.status(200).json({ message: 'Success', domainList: domainList })
+    } else {
+        res.status(200).json({ message: 'Domain not found', domainList: [] })
     }
-
-    // getData = await prisma.InfoDomain.findMany()
-
-    res.status(200).json({ message: 'Get Domain Api ',getData })
 
 
 }
