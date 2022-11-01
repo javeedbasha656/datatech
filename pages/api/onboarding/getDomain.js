@@ -1,5 +1,5 @@
 // import { getSession } from 'next-auth/react'
-const _ = require('lodash');
+import _ from 'lodash';
 import { dbConnection } from '../../../services/db_connections'
 
 
