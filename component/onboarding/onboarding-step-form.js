@@ -5,7 +5,7 @@ import {
     Result, Select, message, Empty
 } from 'antd';
 import Router from 'next/router'
-import styles from './OnboardingStepForm.module.css'
+// import styles from './OnboardingStepForm.module.css'
 import { DomainAPI } from '../../endPointsURL';
 
 const { Step } = Steps;
@@ -38,7 +38,7 @@ const tailLayout = {
 };
 
 
-function onboardingForm(props) {
+function OnboardingForm(props) {
 
     const [user, setUser] = React.useState([])
 
@@ -83,7 +83,7 @@ function onboardingForm(props) {
         <>
             <Form.Item
                 label="Username"
-                className={styles.labelCenter}
+                // className={styles.labelCenter}
                 name="username"
                 rules={[
                     {
@@ -95,7 +95,8 @@ function onboardingForm(props) {
                 <Input placeholder="Username" />
             </Form.Item >
             <Form.Item label="Email" name="email"
-                className={styles.labelCenter}>
+            // className={styles.labelCenter}
+            >
                 <Input placeholder="Email" />
             </Form.Item>
             <Form.Item {...tailLayout}>
@@ -105,7 +106,7 @@ function onboardingForm(props) {
         </>,
         <>
             <Form.Item
-                className={styles.labelCenter}
+                // className={styles.labelCenter}
                 label="First Name"
                 name="firstname"
                 rules={[
@@ -118,7 +119,7 @@ function onboardingForm(props) {
                 <Input placeholder="Username" />
             </Form.Item>
             <Form.Item label="Email" name="person"
-                className={styles.labelCenter}
+                // className={styles.labelCenter}
                 rules={[
                     {
                         required: true,
@@ -229,4 +230,4 @@ function onboardingForm(props) {
     );
 };
 
-export default onboardingForm
+export default OnboardingForm

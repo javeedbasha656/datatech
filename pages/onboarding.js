@@ -1,4 +1,4 @@
-import OnboardingForm from '../component/onboarding/OnboardingStepForm'
+import OnboardingForm from '../component/onboarding/onboarding-step-form'
 import styles from '../styles/Home.module.css'
 
 
