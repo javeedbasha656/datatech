@@ -29,7 +29,8 @@ const menu = (
             {
                 label: <Link href="/">
                     <a onClick={(e) => handleClick(e, "/")}>
-                        <IdcardOutlined />
+                        <IdcardOutlined
+                            className={'profileIcon'} />
                         Account</a>
                 </Link>,
                 key: '0',
@@ -37,7 +38,8 @@ const menu = (
             {
                 label: <Link href="/">
                     <a onClick={(e) => handleClick(e, "/onboarding")}>
-                        <LogoutOutlined />
+                        <LogoutOutlined
+                            className={'profileIcon'} />
                         Logout</a>
                 </Link>,
                 key: '1',
@@ -54,6 +56,7 @@ function ProfileAvatar() {
                 trigger={['click']}>
                 <Space>
                     <Avatar size={30}
+                        style={{ lineHeight: '25px' }}
                         icon={<UserOutlined />}
                         className={'profile'} />
                     <span className='profileuser'>wb542341</span>
