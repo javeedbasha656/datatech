@@ -1,5 +1,6 @@
 const sql = require('mssql')
 
+
 export async function dbConnection(query) {
     // console.log("query : ",  query)
     try {

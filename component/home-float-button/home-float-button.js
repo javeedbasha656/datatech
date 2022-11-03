@@ -56,7 +56,14 @@ function QuickLinksButton() {
             </Action>
             <Action
                 text="Create Topic"
-                onClick={() => Router.push('/onboarding')}
+                onClick={() => Router.push('/onboardingTopic')}
+                style={tinyButtonSytles}
+            >
+                <Image src={Create} alt="api" width={25} height={25} />
+            </Action>
+            <Action
+                text="Create Applicaiton"
+                onClick={() => Router.push('/onboardingApplication')}
                 style={tinyButtonSytles}
             >
                 <Image src={Create} alt="api" width={25} height={25} />

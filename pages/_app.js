@@ -35,9 +35,18 @@ function MyApp({ Component, pageProps }) {
     setTheme(value ? "dark" : "light");
   };
 
+  const ContentAlign = {
+    marginLeft: '250px',
+  }
+
+  const ContentCollapseAlign = {
+    marginLeft: '80px',
+  }
+
   //multi class declaration
   const themeClass = theme === "light" ? "light-menu" : "dark-menu";
   const collapseClass = !collapsed ? "ant-layout-sider" : "ant-layout-sider-collapse";
+  const contentCollapseClass = !collapsed ? ContentAlign : ContentCollapseAlign;
 
   //handling menu key path 
   const handleMenu = (e) => {
@@ -53,25 +62,25 @@ function MyApp({ Component, pageProps }) {
         }}
       >
         <Sider
+          style={{
+            overflow: 'auto',
+            height: '100vh',
+            position: 'fixed',
+            left: 0,
+            top: 0,
+            bottom: 0,
+          }}
           trigger={null}
           collapsible
           collapsed={collapsed}
           className={`${themeClass} ${collapseClass}`}
         >
-          {!collapsed ? (
-            <img
-              alt="World Bank Group"
-              className="logo"
-              src={theme === "dark" ? "/images/dark-logo-fullwidth.png"
-                : "/images/light-logo-fullwidth.png"}
-            />
-          ) : (
-            <img
-              alt="raaonline"
-              className="logo"
-              src={"https://raaonline-admin-staging.web.app/favicon.png"}
-            />
-          )}
+          <img
+            alt="World Bank Group"
+            className="logo"
+            src={!collapsed ? "/images/light-logo-fullwidth.png" :
+              "/images/publications.svg"}
+          />
           <Menu
             theme={theme}
             mode="inline"
@@ -83,12 +92,14 @@ function MyApp({ Component, pageProps }) {
             items={MenuItems}
           />
         </Sider>
-        <Layout>
+        <Layout
+          style={contentCollapseClass}
+        >
           <Header
             className={theme === "light" ? "light-menu"
               : "dark-menu"}
             style={{
-              padding: 0
+              padding: 0,
             }}
           >
             <Button type="primary"
@@ -107,7 +118,10 @@ function MyApp({ Component, pageProps }) {
             </div>
           </Header>
           <Content
-            style={{ padding: '20px' }}
+            style={{
+              padding: '20px',
+              overflow: 'initial',
+            }}
           >
             <Component {...pageProps} />
           </Content>

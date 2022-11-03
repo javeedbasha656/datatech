@@ -1,8 +1,6 @@
 .containerLayout {
-
   padding: 24px 16px 0;
   padding: 20px 15px 20px;
-  background-color: var(--white);
 }
 
 #dark .dark-menu .container {
