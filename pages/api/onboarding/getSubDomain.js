@@ -1,14 +1,16 @@
 // import { getSession } from 'next-auth/react'
 import _ from 'lodash'
 import { dbConnection } from '../../../services/db_connections'
+import { queries } from '../../../services/dbQueries'
 
 async function handler(req, res) {
     if (req.method == 'POST') {
         let domain = req.body.domain
         if (domain) {
             let query = "select * from SourceSetup.InfoSubDomain where Info_Domain_Code='" + domain + "'"
+            // let query = queries.getSubDomain
             let subDomainList = await dbConnection(query)
-            // console.log("SubdomainList: ", subDomainList)
+            
 
             if (_.isArray(subDomainList) && subDomainList.length > 0) {
                 res.status(200).json({ message: 'Success', data: subDomainList })

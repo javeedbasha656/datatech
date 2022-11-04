@@ -1,0 +1,6 @@
+{
+    "getDomain": "select * from SourceSetup.InfoDomain",
+    "getSubDomain": "select * from SourceSetup.InfoSubDomain where Info_Domain_Code=?"
+}
+
+
