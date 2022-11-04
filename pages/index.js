@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import styles from '../styles/pages.module.css'
 import { Card } from 'antd';
 import QuickLinksButton from '../component/home-float-button/home-float-button'
 

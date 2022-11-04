@@ -1,16 +1,32 @@
 import OnboardingApp from '../component/onboarding-application/onboarding-application'
-import styles from '../styles/Home.module.css'
+import styles from '../styles/Pages.module.css'
+import { Button } from 'antd';
+import { ArrowLeftOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/router'
 
 
 function OnboardingApplication() {
+
+    const router = useRouter()
+
     return (
         <div>
             <div className={`${styles.containerLayout} container`}>
                 <div className='row'>
                     <div className='col-md-12'>
-                        <h4 className={'title'}
-                            style={{ marginBottom: '25px' }}
-                        >Onboarding Application</h4>
+                        <div className='row'>
+                            <div className='col-md-6'>
+                                <h4 className={'title'}>Onboarding Application</h4>
+                            </div>
+                            <div className='col-md-6'>
+                                <Button className={`${styles.backbtnAlign} ${styles.backBtn}`}
+                                    icon={<ArrowLeftOutlined />}
+                                    onClick={() => router.push('/')}
+                                >Back</Button>
+                            </div>
+                        </div>
+
+                        <p className='headline1'></p>
                         <OnboardingApp />
                     </div>
                 </div>

@@ -10,7 +10,7 @@ function Product({ posts }) {
                 return (
                     <div key={product.id}>
                         <Link href={'product/' + product.id}>
-                            <h4>{product.id} {product.title}</h4>
+                            <a>{product.id} {product.title}</a>
                         </Link>
 
                         <p>{product.body}</p>

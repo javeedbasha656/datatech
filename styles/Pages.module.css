@@ -1,0 +1,32 @@
+.containerLayout {
+  padding: 24px 16px 0;
+  padding: 20px 15px 20px;
+}
+
+#dark .dark-menu .container {
+  background: var(--dark);
+  color: #fff;
+}
+
+#light .light-menu .container {
+  background: var(--white);
+  color: #333;
+}
+
+.backbtnAlign {
+  margin-top: 10px;
+  float: right;
+  margin-right: 15px;
+}
+
+.backBtn {
+  border: 1px solid var(--primaryColor);
+  color: var(--primaryColor);
+  font-size: 14px;
+  border-radius: 0;
+  box-shadow: 2px 2px 3px #b1b7bb;
+  vertical-align: middle;
+  font-weight: 700;
+  width: 90px !important;
+  height: 40px !important;
+}

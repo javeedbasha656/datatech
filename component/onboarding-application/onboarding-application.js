@@ -4,14 +4,18 @@ import {
     Select, Card, Spin
 } from 'antd';
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
 const { Option } = Select;
 
 function OnboardingApp() {
 
     const [domain, setDomain] = useState([])
+    const [subdomain, setsubdomain] = useState([])
+    const [selectdomain, setselectdomain] = useState(true)
     const [loading, setLoading] = useState(true)
 
+    //function get domain list from api
     const getDomainApi = async () => {
         await fetch('/api/onboarding/getDomain', {
             method: 'GET',
@@ -21,7 +25,7 @@ function OnboardingApp() {
         })
             .then((response) => response.json())
             .then((data) => {
-                // console.log(data.domainList);
+                // console.log(data);
                 setDomain(data)
                 setLoading(false)
             })
@@ -32,9 +36,47 @@ function OnboardingApp() {
             });
     }
 
+    //function get subdomain list from api
+    const getSubDomainApi = async (id) => {
+        // console.log(id)
+        setsubdomain([])
+        const value = (id === undefined) || (id === "") ? "" : id
+
+        var obj = {
+            domain: value
+        }
+
+        await fetch('/api/onboarding/getSubDomain', {
+            method: 'POST',
+            body: JSON.stringify(obj),
+            headers: {
+                Accept: "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((res) => {
+                console.log(res);
+                setsubdomain(res.data)
+                setLoading(false)
+            })
+            .catch((err) => {
+                console.log(err)
+                setsubdomain([])
+                setLoading(false)
+            });
+    }
+
     //domain onchange function
     const domainChange = (value) => {
+        setselectdomain(false)
+        setsubdomain([])
         console.log(`Domain selected ${value}`);
+        if (value === "") {
+            setsubdomain([])
+        }
+        else {
+            getSubDomainApi(value)
+        }
     };
 
     //domain search function
@@ -71,6 +113,12 @@ function OnboardingApp() {
         getDomainApi()
     }, [])
 
+    const router = useRouter()
+
+    if (router.isFallback) {
+        return <div>Loading...</div>
+    }
+
     return (
         <div className='container'>
             <div className='row'>
@@ -96,7 +144,8 @@ function OnboardingApp() {
                             bordered={false}
                             className={'cardLayout'}
                         >
-                            <div className='row' style={{ marginTop: '30px' }}>
+                            <div className='row'
+                                style={{ marginTop: '30px' }}>
                                 <div className='col-md-6'>
                                     <Form.Item
                                         label={<span>Domain:</span>}
@@ -110,6 +159,7 @@ function OnboardingApp() {
                                     >
                                         <Select
                                             showSearch
+                                            disabled={domain.length === 0 ? true : false}
                                             allowClear
                                             placeholder="Select Domain Name"
                                             optionFilterProp="children"
@@ -141,6 +191,9 @@ function OnboardingApp() {
                                     >
                                         <Select
                                             showSearch
+                                            disabled={
+                                                (selectdomain) || (subdomain.length) === 0
+                                                    ? true : false}
                                             placeholder="Select Subdomain Name"
                                             optionFilterProp="children"
                                             filterOption={(input, option) =>
@@ -148,7 +201,13 @@ function OnboardingApp() {
                                             onChange={subdomainChange}
                                             onSearch={subdomainSearch}
                                         >
-                                            <Option value="None">None</Option>
+                                            {subdomain?.map((sub, index) => {
+                                                return (
+                                                    <Option key={index}
+                                                        value={sub.Info_SubDomain_Code}>
+                                                        {sub.Info_SubDomain_Long_Name}</Option>
+                                                )
+                                            })}
                                         </Select>
                                     </Form.Item>
                                 </div>
@@ -227,6 +286,96 @@ function OnboardingApp() {
                             className={'cardLayout'}
                             style={{ marginTop: '30px' }}
                         >
+                            <div className='row'
+                                style={{ marginTop: '30px' }}>
+                                <div className='col-md-6'>
+                                    <Form.Item
+                                        label={<span>Primary Contact <br /> Name: </span>}
+                                        name="primaryname"
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                </div>
+                                <div className='col-md-6'>
+                                    <Form.Item
+                                        label={<span>Primary Email <br /> Address: </span>}
+                                        name="primaryemail"
+                                        rules={[
+                                            {
+                                                type: 'email',
+                                                message: 'Please input correct email address',
+                                            },
+                                        ]}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                </div>
+                            </div>
+                            <div className='row'
+                                style={{ marginTop: '30px' }}>
+                                <div className='col-md-6'>
+                                    <Form.Item
+                                        label={<span>Secondary Contact <br /> Name: </span>}
+                                        name="secondaryname"
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                </div>
+                                <div className='col-md-6'>
+                                    <Form.Item
+                                        label={<span>Secondary Email <br /> Address: </span>}
+                                        name="secondaryemail"
+                                        rules={[
+                                            {
+                                                type: 'email',
+                                                message: 'Please input correct email address',
+                                            },
+                                        ]}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                </div>
+                            </div>
+                            <div className='row'
+                                style={{ marginTop: '30px' }}>
+                                <div className='col-md-6'>
+                                    <Form.Item
+                                        label={<span>Primary Contact <br /> Number: </span>}
+                                        name="primarynumber"
+                                        rules={[
+                                            {
+                                                pattern: /^(\+{1}\d{2,3}\s?[(]{1}\d{1,3}[)]{1}\s?\d+|\+\d{2,3}\s{1}\d+|\d+){1}[\s|-]?\d+([\s|-]?\d+){1,2}$/,
+                                                message: 'Please input the number!'
+                                            },
+                                            {
+                                                min: 10,
+                                                message: 'Primary Contact number should contain atleast 10 digits'
+                                            },
+                                        ]}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                </div>
+                                <div className='col-md-6'>
+                                    <Form.Item
+                                        label={<span>Primary Contact <br /> Number: </span>}
+                                        name="secondarynumber"
+                                        rules={[
+                                            {
+                                                pattern: /^(\+{1}\d{2,3}\s?[(]{1}\d{1,3}[)]{1}\s?\d+|\+\d{2,3}\s{1}\d+|\d+){1}[\s|-]?\d+([\s|-]?\d+){1,2}$/,
+                                                message: 'Please input the number!'
+                                            },
+                                            {
+                                                min: 10,
+                                                message: 'Secondary Contact number should contain atleast 10 digits'
+                                            },
+                                        ]}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                </div>
+                            </div>
+
                         </Card>
                         <div className='row'>
                             <div className='col-md-12'>
