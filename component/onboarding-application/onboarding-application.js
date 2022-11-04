@@ -20,7 +20,7 @@ function OnboardingApp() {
         await fetch('/api/onboarding/getDomain', {
             method: 'GET',
             headers: {
-                Accept: "application/json",
+                "Content-Type": "application/json",
             },
         })
             .then((response) => response.json())
@@ -50,7 +50,7 @@ function OnboardingApp() {
             method: 'POST',
             body: JSON.stringify(obj),
             headers: {
-                Accept: "application/json",
+                "Content-Type": "application/json",
             },
         })
             .then((response) => response.json())

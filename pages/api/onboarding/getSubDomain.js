@@ -5,7 +5,8 @@ import { queries } from '../../../services/dbQueries'
 
 async function handler(req, res) {
     if (req.method == 'POST') {
-        let body = JSON.parse(req.body)
+        // let body = JSON.parse(req.body)
+        let body = req.body
         let domain = body.domain
         // console.log("Subdomain", JSON.parse(req.body))
         if (domain) {
