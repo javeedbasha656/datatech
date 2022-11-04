@@ -33,7 +33,7 @@ const layout = {
 const tailLayout = {
     wrapperCol: {
         offset: 8,
-        span: 10,
+        span: 16,
     },
 };
 
@@ -189,25 +189,6 @@ function OnboardingTopicForm(props) {
                 ]}
             >
                 <Input placeholder="Address" />
-            </Form.Item>
-            <Form.Item {...tailLayout}>
-                <Button
-                    style={{ marginRight: 10 }}
-                    type="primary"
-                    htmlType="submit"
-                    loading={formLoading}
-                    onClick={() => {
-                        submit().then(result => {
-                            if (result === 'ok') {
-                                // console.log("its logging here")
-                                gotoStep(current + 1);
-                            }
-                        });
-                    }}
-                >
-                    Submit
-                </Button>
-                <Button onClick={() => gotoStep(current - 1)}>Prev</Button>
             </Form.Item>
         </Card>,
     ];

@@ -5,7 +5,9 @@ import { queries } from '../../../services/dbQueries'
 
 async function handler(req, res) {
     if (req.method == 'POST') {
-        let domain = req.body.domain
+        let body = JSON.parse(req.body)
+        let domain = body.domain
+        // console.log("Subdomain", JSON.parse(req.body))
         if (domain) {
             let query = "select * from SourceSetup.InfoSubDomain where Info_Domain_Code='" + domain + "'"
             // let query = queries.getSubDomain

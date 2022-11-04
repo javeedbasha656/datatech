@@ -26,6 +26,7 @@ a {
   --tertiaryColor: #0071BC;
   --floatActionColor: #DAF3FC;
   --stepActionColor: #D3D8DA;
+  --borderBottomColor: #00AEEF;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -336,9 +337,11 @@ a {
 }
 
 .headline1 {
-  width: 7%;
-  border-bottom: 3px solid var(--tertiaryColor);
-  margin-bottom: 20px;
+  width: 10%;
+  border-bottom: 3px solid var(--borderBottomColor);
+  margin-bottom: 35px;
+  margin-left: 15px;
+  margin-top: -10px;
 }
 
 .ant-form-item-label>label::after {
@@ -377,4 +380,9 @@ a {
   font-size: 16px !important;
   color: #004370 !important;
   font-weight: 700;
+}
+
+.ant-btn > .anticon {
+  line-height: 1;
+  vertical-align: middle !important;
 }
