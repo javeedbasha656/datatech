@@ -5,14 +5,13 @@ import { dbQueries } from '../../services/common'
 import moment from 'moment'
 
 async function handler(req, res) {
-    console.log('DB_URL:', process.env.DB_URL)
     if (req.method == 'GET') {
         // const session = await getSession({ req })
         // if (!session) {
         //     res.status(401).json({ error: 'Unauthenticated user' })
         // }
         let queryData = await dbQueries()
-        let query = queryData.getDomain
+        let query = queryData.getAppList
         let connPool = await dbConnection()
         let result = await connPool.request().query(query);
         connPool.close()
