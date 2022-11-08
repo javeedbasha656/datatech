@@ -1,16 +1,13 @@
-const sql = require('mssql')
-
+import sql from 'mssql'
+import moment from 'moment'
 
 export async function dbConnection(query) {
-    // console.log("query : ",  query)
     try {
-        let conn = await sql.connect('Server=itsfi-tr-mi-sql01.e57c104c9ca0.database.windows.net;Database=ITSFIDataFramework;User Id=skadf_svc;Password=skadf_2022;Encrypt=true')
-    
-        const result = await sql.query(query)
-        // console.log("DbResult: ", result)
-        let sqlData = result.recordset
-        conn.close();
-        return sqlData
+        console.log("DB_URL: ", process.env.DB_URL)
+        console.log("Start time: ", moment().format('DD-MM-YYYY hh:mm:ss'))
+        let connPool = await sql.connect(process.env.DB_URL)
+
+        return connPool
 
     } catch (err) {
         console.log("Sql connErr: ", err)
