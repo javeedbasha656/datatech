@@ -36,7 +36,7 @@ function MyApp({ Component, pageProps }) {
   };
 
   const ContentAlign = {
-    marginLeft: '250px',
+    marginLeft: '200px',
   }
 
   const ContentCollapseAlign = {
@@ -119,7 +119,7 @@ function MyApp({ Component, pageProps }) {
           </Header>
           <Content
             style={{
-              padding: '20px',
+              padding: '0px',
               overflow: 'initial',
             }}
           >
