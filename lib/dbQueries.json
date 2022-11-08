@@ -1,5 +1,5 @@
 {
     "getDomain": "select Info_Domain_Code,Info_Domain_Long_Name,Info_Domain_Desc from SourceSetup.InfoDomain",
-    "getSubDomain": "SELECT Info_SubDomain_Code,Info_SubDomain_Long_Name from SourceSetup.InfoSubDomain where Info_Domain_Code = @input_parameter",
+    "getSubDomain": "SELECT Info_SubDomain_Code,Info_SubDomain_Long_Name from SourceSetup.InfoSubDomain where Info_Domain_Code = @domain",
     "callSubmitAppSp":""
 }

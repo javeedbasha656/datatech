@@ -2,6 +2,7 @@
 import _ from 'lodash'
 import { dbConnection } from '../../../services/db_connections'
 import { dbQueries } from '../../../services/common'
+import moment from 'moment'
 
 async function handler(req, res) {
     if (req.method == 'POST') {
@@ -22,8 +23,19 @@ async function handler(req, res) {
             "ITSupportEmailAddress": body.ITSupportEmailAddress
         }
 
-        if (data) {
+        if (body.domain && body.subDomain) {
             let query = dbQueries.callSubmitAppSp
+
+            let connPool = await dbConnection()
+            let result = await connPool.request()
+                .input('domain', data.domain)
+                .execute(`LoadControl.SP_PopulateOnBoardingApp`);
+
+            connPool.close()
+            console.log("End time: ", moment().format('DD-MM-YYYY hh:mm:ss'))
+            let subDomainList = result.recordset
+
+
             let details = await dbConnection(query)
 
             if (_.isArray(details) && details.length > 0) {

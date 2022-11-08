@@ -1,6 +1,5 @@
 // import { getSession } from 'next-auth/react'
 import _ from 'lodash'
-import sql from 'mssql'
 import { dbConnection } from '../../../services/db_connections'
 import { dbQueries } from '../../../services/common'
 import moment from 'moment'
@@ -17,7 +16,7 @@ async function handler(req, res) {
 
             let connPool = await dbConnection()
             let result = await connPool.request()
-                .input('input_parameter', sql.NVarChar, domain)
+                .input('domain', domain)
                 .query(query);
 
             connPool.close()
