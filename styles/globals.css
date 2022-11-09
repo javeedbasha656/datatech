@@ -231,7 +231,7 @@ a {
 
 .ant-menu-inline.ant-menu-root .ant-menu-item>.ant-menu-title-content,
 .ant-menu-inline.ant-menu-root .ant-menu-submenu-title>.ant-menu-title-content {
-  color: var(--primaryColor) !important;
+  color: var(--black) !important;
   font-weight: 500;
 }
 
@@ -242,7 +242,7 @@ a {
 .title {
   font-weight: 600;
   font-size: 16px;
-  color: var(--primaryColor);
+  color: var(--black);
   padding: 10px;
 }
 
@@ -409,12 +409,13 @@ a {
 .submitButtonAlign {
   float: right;
   margin-top: 15px;
+  margin-bottom: 20px;
 }
 
 .ant-card-type-inner .ant-card-head-title {
   padding: 6px 0 !important;
   font-size: 14px !important;
-  color: #004370 !important;
+  color: var(--black) !important;
   font-weight: 600;
 }
 
