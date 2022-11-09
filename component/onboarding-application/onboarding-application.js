@@ -1,10 +1,10 @@
 import React from 'react';
 import {
     Button, Form, Input,
-    Select, Card, Spin
+    Select, Card, Spin, message
 } from 'antd';
 import { useEffect, useState } from 'react'
-import { DomainAPIURL, SubDomainAPIURL } from '../../endPointsURL';
+import { DomainAPIURL, SubDomainAPIURL, SubmitAppAPIURL } from '../../endPointsURL';
 import { useRouter } from 'next/router'
 
 const { Option } = Select;
@@ -14,7 +14,9 @@ function OnboardingApp(props) {
     const [domain, setDomain] = useState([])
     const [subdomain, setsubdomain] = useState([])
     const [selectsubdomain, setsubselectdomain] = useState(false)
+    const [subloading, setsubloading] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [btnLoading, setbtnLoading] = useState(false)
     const [form] = Form.useForm();
 
     //function get domain list from api
@@ -41,6 +43,7 @@ function OnboardingApp(props) {
     //function get subdomain list from api
     const getSubDomainApi = async (id) => {
         // console.log(id)
+        setsubloading(true)
         setsubdomain([])
         const value = (id === undefined) || (id === "") ? "" : id
 
@@ -59,17 +62,18 @@ function OnboardingApp(props) {
             .then((res) => {
                 console.log(res);
                 setsubdomain(res.data)
-                setLoading(false)
+                setsubloading(false)
             })
             .catch((err) => {
                 console.log(err)
                 setsubdomain([])
-                setLoading(false)
+                setsubloading(false)
             });
     }
 
     //domain onchange function
     const domainChange = (value) => {
+        setsubloading(true)
         setsubselectdomain(false)
         form.resetFields(["subdomain"])
         setsubdomain([])
@@ -77,10 +81,12 @@ function OnboardingApp(props) {
         if (value === "") {
             setsubdomain([])
             setsubselectdomain(true)
+            setsubloading(false)
             form.resetFields(["subdomain"])
         }
         else {
             getSubDomainApi(value)
+            setsubloading(false)
             setsubselectdomain(false)
         }
     };
@@ -105,9 +111,52 @@ function OnboardingApp(props) {
         console.log(`Status selected ${value}`);
     };
 
+    //post submit application api integration function
+    const submitAppApi = async (value) => {
+        console.log("Submit Values:", value)
+        setbtnLoading(true)
+
+        var obj = {
+            domain: value.domain,
+            subDomain: value.subdomain,
+            applicationName: value.applicationname,
+            applicationAbbreviatedName: value.applicationabbvname,
+            applicationDesc: value.applicationdescription,
+            statusCode: value.status,
+            primaryContactName: value.primaryname === undefined ? "" : value.primaryname,
+            primaryEmailAddress: value.primaryemail === undefined ? "" : value.primaryemail,
+            primaryContactNumber: value.primarynumber === undefined ? "" : value.primarynumber,
+            secondaryContactName: value.secondaryname === undefined ? "" : value.secondaryname,
+            secondaryEmailAddress: value.secondaryemail === undefined ? "" : value.secondaryemail,
+            secondaryContactNumber: value.secondarynumber === undefined ? "" : value.secondarynumber,
+            ITSupportEmailAddress: value.itsupportemail === undefined ? "" : value.itsupportemail
+        }
+
+        await fetch(SubmitAppAPIURL, {
+            method: 'POST',
+            body: JSON.stringify(obj),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((res) => {
+                console.log(res);
+                message.success("Data submitted successfully")
+                setbtnLoading(false)
+                form.resetFields();
+            })
+            .catch((err) => {
+                console.log(err.message)
+                setbtnLoading(false)
+                message.error(err.message)
+            });
+    }
+
     //form submit function 
     const onFinish = (values) => {
-        console.log('Success:', values);
+        // console.log('Success:', values);
+        submitAppApi(values)
     };
 
     //form failure function to get issue from client side
@@ -156,8 +205,9 @@ function OnboardingApp(props) {
                         >
                             <div className='row rowmargin'>
                                 <div className='col-md-6'>
+                                    <label>Domain:</label>
                                     <Form.Item
-                                        label={<span>Domain:</span>}
+                                        label=""
                                         name="domain"
                                         rules={[
                                             {
@@ -187,8 +237,9 @@ function OnboardingApp(props) {
                                     </Form.Item>
                                 </div>
                                 <div className='col-md-6'>
+                                    <label>Sub Domain:</label>
                                     <Form.Item
-                                        label={<span>Sub Domain:</span>}
+                                        label=""
                                         name="subdomain"
                                         rules={[
                                             {
@@ -202,7 +253,7 @@ function OnboardingApp(props) {
                                             disabled={
                                                 (selectsubdomain) || (subdomain.length) === 0
                                                     ? true : false}
-                                            loading={selectsubdomain === false ? false : true}
+                                            loading={subloading ? <Spin /> : null}
                                             placeholder="Select Subdomain Name"
                                             optionFilterProp="children"
                                             filterOption={(input, option) =>
@@ -223,8 +274,9 @@ function OnboardingApp(props) {
                             </div>
                             <div className='row rowmargin'>
                                 <div className='col-md-6'>
+                                    <label>Application Name:</label>
                                     <Form.Item
-                                        label={<span>Application Name:</span>}
+                                        label=""
                                         name="applicationname"
                                         rules={[
                                             {
@@ -237,8 +289,9 @@ function OnboardingApp(props) {
                                     </Form.Item>
                                 </div>
                                 <div className='col-md-6'>
+                                    <label>Application Abbreviated Name:</label>
                                     <Form.Item
-                                        label={<span>Application <br /> Abbreviated Name: </span>}
+                                        label=""
                                         name="applicationabbvname"
                                         rules={[
                                             {
@@ -253,8 +306,9 @@ function OnboardingApp(props) {
                             </div>
                             <div className='row rowmargin'>
                                 <div className='col-md-6'>
+                                    <label>Application Description:</label>
                                     <Form.Item
-                                        label={<span>Application <br /> Description: </span>}
+                                        label=""
                                         name="applicationdescription"
                                         rules={[
                                             {
@@ -267,8 +321,9 @@ function OnboardingApp(props) {
                                     </Form.Item>
                                 </div>
                                 <div className='col-md-6'>
+                                    <label>Status Code:</label>
                                     <Form.Item
-                                        label={<span>Status Code:</span>}
+                                        label=""
                                         name="status"
                                         rules={[
                                             {
@@ -296,16 +351,18 @@ function OnboardingApp(props) {
                         >
                             <div className='row rowmargin'>
                                 <div className='col-md-6'>
+                                    <label>Primary Contact Name:</label>
                                     <Form.Item
-                                        label={<span>Primary Contact <br /> Name: </span>}
+                                        label=""
                                         name="primaryname"
                                     >
                                         <Input />
                                     </Form.Item>
                                 </div>
                                 <div className='col-md-6'>
+                                    <label>Primary Email Address:</label>
                                     <Form.Item
-                                        label={<span>Primary Email <br /> Address: </span>}
+                                        label=""
                                         name="primaryemail"
                                         rules={[
                                             {
@@ -320,16 +377,18 @@ function OnboardingApp(props) {
                             </div>
                             <div className='row rowmargin'>
                                 <div className='col-md-6'>
+                                    <label>Secondary Contact Name:</label>
                                     <Form.Item
-                                        label={<span>Secondary Contact <br /> Name: </span>}
+                                        label=""
                                         name="secondaryname"
                                     >
                                         <Input />
                                     </Form.Item>
                                 </div>
                                 <div className='col-md-6'>
+                                    <label>Secondary Email Address:</label>
                                     <Form.Item
-                                        label={<span>Secondary Email <br /> Address: </span>}
+                                        label=""
                                         name="secondaryemail"
                                         rules={[
                                             {
@@ -344,8 +403,9 @@ function OnboardingApp(props) {
                             </div>
                             <div className='row rowmargin'>
                                 <div className='col-md-6'>
+                                    <label>Primary Contact Number:</label>
                                     <Form.Item
-                                        label={<span>Primary Contact <br /> Number: </span>}
+                                        label=""
                                         name="primarynumber"
                                         rules={[
                                             {
@@ -362,8 +422,9 @@ function OnboardingApp(props) {
                                     </Form.Item>
                                 </div>
                                 <div className='col-md-6'>
+                                    <label>Secondary Contact Number: </label>
                                     <Form.Item
-                                        label={<span>Secondary Contact <br /> Number: </span>}
+                                        label=""
                                         name="secondarynumber"
                                         rules={[
                                             {
@@ -382,8 +443,9 @@ function OnboardingApp(props) {
                             </div>
                             <div className='row rowmargin'>
                                 <div className='col-md-6'>
+                                    <label>IT Support Email Address:</label>
                                     <Form.Item
-                                        label={<span>IT Support Email <br /> Address: </span>}
+                                        label=""
                                         name="itsupportemail"
                                         rules={[
                                             {
@@ -400,7 +462,10 @@ function OnboardingApp(props) {
                         <div className='row'>
                             <div className='col-md-12'>
                                 <Form.Item>
-                                    <Button type="primary" htmlType="submit"
+                                    <Button
+                                        type="primary"
+                                        htmlType="submit"
+                                        loading={btnLoading}
                                         className={'submitbtn submitButtonAlign'}>
                                         Submit
                                     </Button>

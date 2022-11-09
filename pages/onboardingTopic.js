@@ -8,7 +8,7 @@ function OnBoardingTopic() {
             <div className='row'>
                 <div className='col-md-12'>
                     <h4 className={'title'}>Onboarding Topic</h4>
-                    <p className='headline1'></p>
+                    {/* <p className='headline1'></p> */}
                     <OnboardingTopicForm />
                 </div>
             </div>
