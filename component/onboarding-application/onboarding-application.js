@@ -4,20 +4,22 @@ import {
     Select, Card, Spin
 } from 'antd';
 import { useEffect, useState } from 'react'
+import { DomainAPIURL, SubDomainAPIURL } from '../../endPointsURL';
 import { useRouter } from 'next/router'
 
 const { Option } = Select;
 
-function OnboardingApp() {
+function OnboardingApp(props) {
 
     const [domain, setDomain] = useState([])
     const [subdomain, setsubdomain] = useState([])
-    const [selectdomain, setselectdomain] = useState(true)
+    const [selectsubdomain, setsubselectdomain] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [form] = Form.useForm();
 
     //function get domain list from api
     const getDomainApi = async () => {
-        await fetch('/api/onboarding/getDomain', {
+        await fetch(DomainAPIURL, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
@@ -46,7 +48,7 @@ function OnboardingApp() {
             domain: value
         }
 
-        await fetch('/api/onboarding/getSubDomain', {
+        await fetch(SubDomainAPIURL, {
             method: 'POST',
             body: JSON.stringify(obj),
             headers: {
@@ -68,14 +70,18 @@ function OnboardingApp() {
 
     //domain onchange function
     const domainChange = (value) => {
-        setselectdomain(false)
+        setsubselectdomain(false)
+        form.resetFields(["subdomain"])
         setsubdomain([])
         console.log(`Domain selected ${value}`);
         if (value === "") {
             setsubdomain([])
+            setsubselectdomain(true)
+            form.resetFields(["subdomain"])
         }
         else {
             getSubDomainApi(value)
+            setsubselectdomain(false)
         }
     };
 
@@ -111,6 +117,9 @@ function OnboardingApp() {
 
     useEffect(() => {
         getDomainApi()
+        // form.setFieldsValue({
+        //     applicationname: "default value",
+        // });
     }, [])
 
     const router = useRouter()
@@ -124,7 +133,8 @@ function OnboardingApp() {
             <div className='row'>
                 <div className='col-md-12'>
                     <Form
-                        name="basic"
+                        form={form}
+                        name="onboardingapplication"
                         labelCol={{
                             span: 8,
                         }}
@@ -144,8 +154,7 @@ function OnboardingApp() {
                             bordered={false}
                             className={'cardLayout'}
                         >
-                            <div className='row'
-                                style={{ marginTop: '30px' }}>
+                            <div className='row rowmargin'>
                                 <div className='col-md-6'>
                                     <Form.Item
                                         label={<span>Domain:</span>}
@@ -160,7 +169,6 @@ function OnboardingApp() {
                                         <Select
                                             showSearch
                                             disabled={domain.length === 0 ? true : false}
-                                            allowClear
                                             placeholder="Select Domain Name"
                                             optionFilterProp="children"
                                             loading={loading ? <Spin /> : null}
@@ -192,8 +200,9 @@ function OnboardingApp() {
                                         <Select
                                             showSearch
                                             disabled={
-                                                (selectdomain) || (subdomain.length) === 0
+                                                (selectsubdomain) || (subdomain.length) === 0
                                                     ? true : false}
+                                            loading={selectsubdomain === false ? false : true}
                                             placeholder="Select Subdomain Name"
                                             optionFilterProp="children"
                                             filterOption={(input, option) =>
@@ -212,7 +221,7 @@ function OnboardingApp() {
                                     </Form.Item>
                                 </div>
                             </div>
-                            <div className='row' style={{ marginTop: '30px' }}>
+                            <div className='row rowmargin'>
                                 <div className='col-md-6'>
                                     <Form.Item
                                         label={<span>Application Name:</span>}
@@ -242,7 +251,7 @@ function OnboardingApp() {
                                     </Form.Item>
                                 </div>
                             </div>
-                            <div className='row' style={{ marginTop: '30px' }}>
+                            <div className='row rowmargin'>
                                 <div className='col-md-6'>
                                     <Form.Item
                                         label={<span>Application <br /> Description: </span>}
@@ -283,11 +292,9 @@ function OnboardingApp() {
                             type={'inner'}
                             title={'Contact Informtion'}
                             bordered={false}
-                            className={'cardLayout'}
-                            style={{ marginTop: '30px' }}
+                            className={'cardLayout rowmargin'}
                         >
-                            <div className='row'
-                                style={{ marginTop: '30px' }}>
+                            <div className='row rowmargin'>
                                 <div className='col-md-6'>
                                     <Form.Item
                                         label={<span>Primary Contact <br /> Name: </span>}
@@ -311,8 +318,7 @@ function OnboardingApp() {
                                     </Form.Item>
                                 </div>
                             </div>
-                            <div className='row'
-                                style={{ marginTop: '30px' }}>
+                            <div className='row rowmargin'>
                                 <div className='col-md-6'>
                                     <Form.Item
                                         label={<span>Secondary Contact <br /> Name: </span>}
@@ -336,8 +342,7 @@ function OnboardingApp() {
                                     </Form.Item>
                                 </div>
                             </div>
-                            <div className='row'
-                                style={{ marginTop: '30px' }}>
+                            <div className='row rowmargin'>
                                 <div className='col-md-6'>
                                     <Form.Item
                                         label={<span>Primary Contact <br /> Number: </span>}
@@ -358,7 +363,7 @@ function OnboardingApp() {
                                 </div>
                                 <div className='col-md-6'>
                                     <Form.Item
-                                        label={<span>Primary Contact <br /> Number: </span>}
+                                        label={<span>Secondary Contact <br /> Number: </span>}
                                         name="secondarynumber"
                                         rules={[
                                             {
@@ -375,7 +380,22 @@ function OnboardingApp() {
                                     </Form.Item>
                                 </div>
                             </div>
-
+                            <div className='row rowmargin'>
+                                <div className='col-md-6'>
+                                    <Form.Item
+                                        label={<span>IT Support Email <br /> Address: </span>}
+                                        name="itsupportemail"
+                                        rules={[
+                                            {
+                                                type: 'email',
+                                                message: 'Please input correct email address',
+                                            },
+                                        ]}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                </div>
+                            </div>
                         </Card>
                         <div className='row'>
                             <div className='col-md-12'>

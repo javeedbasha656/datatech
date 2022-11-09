@@ -21,9 +21,9 @@ const tinyButtonSytles = {
     backgroundColor: 'var(--primaryColor) !important',
 }
 
-
 function QuickLinksButton() {
     return (
+
         <Fab
             mainButtonStyles={mainButtonstyles}
             // actionButtonStyles={tinyButtonSytles}
@@ -69,6 +69,7 @@ function QuickLinksButton() {
                 <Image src={Create} alt="api" width={25} height={25} />
             </Action>
         </Fab>
+
     )
 }
 

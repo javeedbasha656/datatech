@@ -1,6 +1,9 @@
 .containerLayout {
-  padding: 24px 16px 0;
-  padding: 20px 15px 20px;
+  padding: 10px 0 0;
+}
+
+.containerLayout1 {
+  padding: 10px 10px 10px;
 }
 
 #dark .dark-menu .container {
@@ -14,7 +17,7 @@
 }
 
 .backbtnAlign {
-  margin-top: 10px;
+  margin-top: 5px;
   float: right;
   margin-right: 15px;
 }
@@ -26,7 +29,8 @@
   border-radius: 0;
   box-shadow: 2px 2px 3px #b1b7bb;
   vertical-align: middle;
-  font-weight: 700;
-  width: 90px !important;
-  height: 40px !important;
+  font-weight: 600;
+  width: 85px !important;
+  height: 35px !important;
+  margin-bottom: 5px;
 }
