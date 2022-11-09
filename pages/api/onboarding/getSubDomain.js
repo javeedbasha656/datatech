@@ -10,23 +10,28 @@ async function handler(req, res) {
         let body = req.body
         let domain = body.domain
         if (domain) {
-            let queries = await dbQueries()
-            let query = queries.getSubDomain
-            // console.log("Query: ", query)
+            try {
+                let queries = await dbQueries()
+                let query = queries.getSubDomain
+                // console.log("Query: ", query)
 
-            let connPool = await dbConnection()
-            let result = await connPool.request()
-                .input('domain', domain)
-                .query(query);
+                let connPool = await dbConnection()
+                let result = await connPool.request()
+                    .input('domain', domain)
+                    .query(query);
 
-            connPool.close()
-            console.log("End time: ", moment().format('DD-MM-YYYY hh:mm:ss'))
-            let subDomainList = result.recordset
+                connPool.close()
+                console.log("End time: ", moment().format('DD-MM-YYYY hh:mm:ss'))
+                let subDomainList = result.recordset
 
-            if (_.isArray(subDomainList) && subDomainList.length > 0) {
-                res.status(200).json({ message: 'Success', data: subDomainList })
-            } else {
-                res.status(200).json({ message: 'Data not found', data: [] })
+                if (_.isArray(subDomainList) && subDomainList.length > 0) {
+                    res.status(200).json({ message: 'Success', data: subDomainList })
+                } else {
+                    res.status(200).json({ message: 'Data not found', data: [] })
+                }
+            } catch (err) {
+                console.log("Err: ", err)
+                res.status(500).json({ message: 'Something went wrong...please try again later' })
             }
         } else {
             res.status(500).json({ message: 'Invalid domain passed' })
