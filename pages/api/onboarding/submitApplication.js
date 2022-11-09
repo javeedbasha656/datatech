@@ -56,7 +56,7 @@ async function handler(req, res) {
             }
             catch (err) {
                 // console.log("Err: ", err)
-                res.status(500).json({ message: 'Internal Server Error,Please check for duplicate entries' })
+                res.status(500).json({ message: 'Please check for duplicate entries' })
             }
         } else {
             res.status(400).json({ message: 'Invalid data passed' })
