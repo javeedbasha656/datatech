@@ -2,8 +2,13 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Pages.module.css'
 import { Card } from 'antd';
-import QuickLinksButton from '../component/home-float-button/home-float-button'
+// import QuickLinksButton from '../component/home-float-button/home-float-button'
+import dynamic from "next/dynamic"
 
+const QuickLinksButton = dynamic(() => import("../component/home-float-button/home-float-button"), {
+  // Do not import in server side
+  ssr: false,
+})
 
 export default function Home({ }) {
   return (
@@ -34,7 +39,7 @@ export default function Home({ }) {
           </div>
         </div>
         {/* <div className='pulse'> */}
-          <QuickLinksButton />
+        <QuickLinksButton />
         {/* </div> */}
       </div>
     </div>
