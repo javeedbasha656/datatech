@@ -23,8 +23,8 @@
 }
 
 .backBtn {
-  border: 1px solid var(--primaryColor);
-  color: var(--primaryColor);
+  border: 1px solid var(--titleColor);
+  color: var(--titleColor);
   font-size: 14px;
   border-radius: 0;
   box-shadow: 2px 2px 3px #b1b7bb;

@@ -205,7 +205,7 @@ function OnboardingApp(props) {
                         >
                             <div className='row rowmargin'>
                                 <div className='col-md-6'>
-                                    <label>Domain:</label>
+                                    <label>Domain<span class="error">*</span></label>
                                     <Form.Item
                                         label=""
                                         name="domain"
@@ -237,7 +237,7 @@ function OnboardingApp(props) {
                                     </Form.Item>
                                 </div>
                                 <div className='col-md-6'>
-                                    <label>Sub Domain:</label>
+                                    <label>Sub Domain<span class="error">*</span></label>
                                     <Form.Item
                                         label=""
                                         name="subdomain"
@@ -274,7 +274,7 @@ function OnboardingApp(props) {
                             </div>
                             <div className='row rowmargin'>
                                 <div className='col-md-6'>
-                                    <label>Application Name:</label>
+                                    <label>Application Name<span class="error">*</span></label>
                                     <Form.Item
                                         label=""
                                         name="applicationname"
@@ -289,7 +289,7 @@ function OnboardingApp(props) {
                                     </Form.Item>
                                 </div>
                                 <div className='col-md-6'>
-                                    <label>Application Abbreviated Name:</label>
+                                    <label>Application Abbreviated Name<span class="error">*</span></label>
                                     <Form.Item
                                         label=""
                                         name="applicationabbvname"
@@ -306,7 +306,7 @@ function OnboardingApp(props) {
                             </div>
                             <div className='row rowmargin'>
                                 <div className='col-md-6'>
-                                    <label>Application Description:</label>
+                                    <label>Application Description<span class="error">*</span></label>
                                     <Form.Item
                                         label=""
                                         name="applicationdescription"
@@ -321,7 +321,7 @@ function OnboardingApp(props) {
                                     </Form.Item>
                                 </div>
                                 <div className='col-md-6'>
-                                    <label>Status Code:</label>
+                                    <label>Status Code<span class="error">*</span></label>
                                     <Form.Item
                                         label=""
                                         name="status"

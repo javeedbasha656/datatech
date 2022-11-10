@@ -10,15 +10,15 @@ import Create from '../../public/images/create_topic.png'
 
 
 const mainButtonstyles = {
-    backgroundColor: 'var(--primaryColor)',
+    backgroundColor: 'var(--titleColor)',
     color: 'var(--white)',
     fontSize: '28px',
-    backgroundImage: 'linear-gradient(var(--primaryColor), var(--tertiaryColor))',
+    backgroundImage: 'linear-gradient(var(--titleColor), var(--tertiaryColor))',
     marginBottom: '30px'
 }
 
 const tinyButtonSytles = {
-    backgroundColor: 'var(--primaryColor) !important',
+    backgroundColor: 'var(--titleColor) !important',
 }
 
 function QuickLinksButton() {

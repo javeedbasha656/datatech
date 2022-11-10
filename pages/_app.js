@@ -14,6 +14,7 @@ import {
 import Footer from '../component/footer/footer'
 import Profile from '../component/common/profile'
 import { MenuItems } from '../component/common/menuItems';
+import Image from 'next/image'
 // import useRouter from 'next/router'
 
 
@@ -75,11 +76,15 @@ function MyApp({ Component, pageProps }) {
           collapsed={collapsed}
           className={`${themeClass} ${collapseClass}`}
         >
-          <img
-            alt="World Bank Group"
-            className="logo"
+          <Image
             src={!collapsed ? "/images/light-logo-fullwidth.png" :
               "/images/publications.svg"}
+            alt="World Bank Group"
+            className="logo"
+            width="180px"
+            height="50px"
+            // layout="responsive"
+            objectFit="contain"
           />
           <Menu
             theme={theme}
