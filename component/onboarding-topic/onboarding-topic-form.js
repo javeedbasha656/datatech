@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useStepsForm } from 'sunflower-antd';
 import {
     Steps, Input, Button, Form,
@@ -6,7 +6,7 @@ import {
 } from 'antd';
 import Router from 'next/router'
 // import styles from './OnboardingStepForm.module.css'
-import { DomainAPI } from '../../endPointsURL';
+import { TestUserAPI } from '../../endPointsURL';
 
 const { Step } = Steps;
 
@@ -22,12 +22,10 @@ const onSearch = (value) => {
 
 const layout = {
     labelCol: {
-        offset: 2,
-        span: 4,
+        span: 8,
     },
     wrapperCol: {
-        offset: 2,
-        span: 10,
+        span: 24,
     },
 };
 const tailLayout = {
@@ -40,16 +38,16 @@ const tailLayout = {
 
 function OnboardingTopicForm(props) {
 
-    const [user, setUser] = React.useState([])
+    const [user, setUser] = useState([])
 
     const getApi = async () => {
-        const res = await fetch(DomainAPI)
+        const res = await fetch(TestUserAPI)
         const data = await res.json()
         // console.log(data)
         setUser(data)
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         getApi()
     }, [])
 
@@ -67,10 +65,10 @@ function OnboardingTopicForm(props) {
             try {
                 if (values.length !== 0) {
                     console.log(values);
-                    message.success('This is a success message');
                     setTimeout(() => {
                         Router.push('/')
-                    }, 2000)
+                        message.success('Submitted the data successfully');
+                    }, 3000)
                     return 'ok';
                 }
             }
@@ -89,28 +87,44 @@ function OnboardingTopicForm(props) {
             bordered={false}
             className={'cardLayout'}
         >
-            <Form.Item
-                label="Username"
-                // className={styles.labelCenter}
-                name="username"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please input username',
-                    },
-                ]}
-            >
-                <Input placeholder="Username" />
-            </Form.Item >
-            <Form.Item label="Email" name="email"
-            // className={styles.labelCenter}
-            >
-                <Input placeholder="Email" />
-            </Form.Item>
-            <Form.Item {...tailLayout}>
-                <Button onClick={() =>
-                    gotoStep(current + 1)}>Next</Button>
-            </Form.Item>
+            <div className='row rowmargin'>
+                <div className='col-md-6'>
+                    <Form.Item
+                        label={<span>Username:</span>}
+                        // className={styles.labelCenter}
+                        name="username"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input username',
+                            },
+                        ]}
+                    >
+                        <Input placeholder="Username" />
+                    </Form.Item >
+                </div>
+                <div className='col-md-6'>
+                    <Form.Item
+                        label={<span>Email:</span>}
+                        name="email"
+                    // className={styles.labelCenter}
+                    >
+                        <Input placeholder="Email" />
+                    </Form.Item>
+                </div>
+            </div>
+            <div className='row'>
+                <div className='col-md-6'></div>
+                <div className='col-md-6'>
+                    <Form.Item>
+                        <Button
+                            type="primary"
+                            className={'submitbtn submitButtonAlign'}
+                            onClick={() =>
+                                gotoStep(current + 1)}>Next</Button>
+                    </Form.Item>
+                </div>
+            </div>
         </Card>,
         <Card
             type="inner"
@@ -118,58 +132,83 @@ function OnboardingTopicForm(props) {
             bordered={false}
             className={'cardLayout'}
         >
-            <Form.Item
-                // className={styles.labelCenter}
-                label="First Name"
-                name="firstname"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please input firstname',
-                    },
-                ]}
-            >
-                <Input placeholder="Username" />
-            </Form.Item>
-            <Form.Item label="Email" name="person"
-                // className={styles.labelCenter}
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please input person',
-                    },
-                ]}>
-                <Select
-                    showSearch
-                    placeholder="Select a person"
-                    optionFilterProp="children"
-                    onChange={onChange}
-                    onSearch={onSearch}
-                    filterOption={(input, option) =>
-                        option.children.toLowerCase().includes(input.toLowerCase())}
-                >
-                    {user.length != 0 ? (
-                        <>
-                            {user?.map((list) => {
-                                return (
-                                    <Option key={list.id}>{list.username}</Option>
-                                )
-                            })}
-                        </>
-                    ) : (
-                        <>
-                            <Empty />
-                        </>
-                    )}
-                </Select>
-            </Form.Item>
-            <Form.Item {...tailLayout}>
-                <Button
-                    onClick={() => gotoStep(current - 1)}
-                    style={{ marginRight: 10 }}>
-                    Prev</Button>
-                <Button onClick={() => gotoStep(current + 1)}>Next</Button>
-            </Form.Item>
+            <div className='row rowmargin'>
+                <div className='col-md-12'>
+                    <div className='row'>
+                        <div className='col-md-6'>
+                            <Form.Item
+                                // className={styles.labelCenter}
+                                label={<span>First Name:</span>}
+                                name="firstname"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please input firstname',
+                                    },
+                                ]}
+                            >
+                                <Input placeholder="Username" />
+                            </Form.Item>
+                        </div>
+                        <div className='col-md-6'>
+                            <Form.Item
+                                label={<span>Person:</span>}
+                                name="person"
+                                // className={styles.labelCenter}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please input person',
+                                    },
+                                ]}>
+                                <Select
+                                    showSearch
+                                    placeholder="Select a person"
+                                    optionFilterProp="children"
+                                    onChange={onChange}
+                                    onSearch={onSearch}
+                                    filterOption={(input, option) =>
+                                        option.children.toLowerCase().includes(input.toLowerCase())}
+                                >
+                                    {user.length != 0 ? (
+                                        <>
+                                            {user?.map((list) => {
+                                                return (
+                                                    <Option key={list.id}>{list.username}</Option>
+                                                )
+                                            })}
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Empty />
+                                        </>
+                                    )}
+                                </Select>
+                            </Form.Item>
+                        </div>
+                    </div>
+                    <div className='row'>
+                        <div className='col-md-6'>
+                            <Form.Item>
+                                <Button
+                                    className={'backbtnAlign backBtn'}
+                                    onClick={() => gotoStep(current - 1)}
+                                    style={{ marginRight: 10 }}>
+                                    Prev</Button>
+                            </Form.Item>
+                        </div>
+                        <div className='col-md-6'>
+                            <Form.Item>
+                                <Button
+                                    type="primary"
+                                    className={'submitbtn submitButtonAlign'}
+                                    onClick={() => gotoStep(current + 1)}>
+                                    Next</Button>
+                            </Form.Item>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </Card>,
 
         <Card
@@ -179,7 +218,7 @@ function OnboardingTopicForm(props) {
             className={'cardLayout'}
         >
             <Form.Item
-                label="Address"
+                label={<span>Address:</span>}
                 name="address"
                 rules={[
                     {
@@ -190,53 +229,77 @@ function OnboardingTopicForm(props) {
             >
                 <Input placeholder="Address" />
             </Form.Item>
+            <Form.Item {...tailLayout}>
+                <Button
+                    style={{ marginRight: 10 }}
+                    type="primary"
+                    loading={formLoading}
+                    onClick={() => {
+                        submit().then(result => {
+                            if (result === 'ok') {
+                                gotoStep(current + 1);
+                            }
+                        });
+                    }}
+                >
+                    Submit
+                </Button>
+                <Button onClick={() => gotoStep(current - 1)}>Prev</Button>
+            </Form.Item>
         </Card>,
     ];
 
     return (
-        <div style={{ marginTop: '30px' }}>
-            <Card
-                bordered={false}
-                title={null}
-                className={'cardLayout'}
-            >
-                <Steps {...stepsProps} type="navigation">
-                    <Step title="Step 1" />
-                    <Step title="Step 2" />
-                    <Step title="Step 3" />
-                </Steps>
-            </Card>
+        <div className='container'>
+            <div className='row'>
+                <div className='col-md-12'>
+                    <div className='rowmargin'>
+                        <Card
+                            bordered={false}
+                            title={null}
+                            className={'cardLayout'}
+                        >
+                            <Steps {...stepsProps} type="navigation">
+                                <Step title="Step 1" />
+                                <Step title="Step 2" />
+                                <Step title="Step 3" />
+                            </Steps>
+                        </Card>
 
-            <div style={{ marginTop: '30px' }}>
-                <Form {...layout} {...formProps} >
-                    {formList[current]}
-                </Form>
+                        <div style={{ marginTop: '30px' }}>
+                            <Form {...layout} {...formProps} >
+                                {formList[current]}
+                            </Form>
 
-                {current === 3 && (
-                    <Card
-                        bordered={false}
-                        title={null}
-                        className={'cardLayout'}>
-                        <Result
-                            status="success"
-                            title="Submit is succeed!"
-                            extra={
-                                <>
-                                    <Button
-                                        type="primary"
-                                        onClick={() => {
-                                            Router.push('/onboardingTopic')
-                                        }}
-                                    >
-                                        Home
-                                    </Button>
-                                </>
-                            }
-                        />
-                    </Card>
-                )}
+                            {current === 3 && (
+                                <Card
+                                    bordered={false}
+                                    title={null}
+                                    className={'cardLayout'}>
+                                    <Result
+                                        status="success"
+                                        title="Your data submitted successfully!"
+                                    // extra={
+                                    //     <>
+                                    //         <Button
+                                    //             type="primary"
+                                    //             onClick={() => {
+                                    //                 Router.push('/onboardingTopic')
+                                    //             }}
+                                    //         >
+                                    //             Home
+                                    //         </Button>
+                                    //     </>
+                                    // }
+                                    />
+                                </Card>
+                            )}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
     );
 };
 

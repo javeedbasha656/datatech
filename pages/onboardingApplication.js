@@ -26,7 +26,7 @@ function OnboardingApplication() {
                             </div>
                         </div>
 
-                        <p className='headline1'></p>
+                        {/* <p className='headline1'></p> */}
                         <OnboardingApp />
                     </div>
                 </div>
@@ -36,3 +36,4 @@ function OnboardingApplication() {
 }
 
 export default OnboardingApplication
+

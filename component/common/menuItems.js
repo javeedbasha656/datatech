@@ -24,26 +24,26 @@ function getItem(label, key, icon, children, type) {
 
 export const MenuItems = [
     getItem("Domain", "1", <Image src={Dashboard} alt="dashboard"
-        width={20} height={20} />, [
+        width={15} height={15} />, [
         getItem("Sub-Domain", "sub1"),
         getItem("Applications", "sub2"),
     ]),
     getItem(<span>Publicaition</span>, "2", <Image src={Publication} alt="publication"
-        width={20} height={20} />),
+        width={15} height={15} />),
     getItem("Subscriptions", "3", <Image src={Subscriptions} alt="subscription"
-        width={20} height={20} />),
+        width={15} height={15} />),
     getItem("User Management", "4", <Image src={Users} alt="User Management"
-        width={20} height={20} />),
+        width={15} height={15} />),
     getItem("Metasearch", "5", <Image src={Search} alt="metasearch"
-        width={20} height={20} />),
+        width={15} height={15} />),
     getItem("Data Governance", "6", <Image src={Database} alt="Data Governance"
-        width={20} height={20} />),
+        width={15} height={15} />),
     getItem("Folder Management", "7", <Image src={Folder} alt="Folder Management"
-        width={20} height={20} />),
+        width={15} height={15} />),
     getItem("Adminstration", "8", <Image src={Admin} alt="Adminstration"
-        width={20} height={20} />),
+        width={15} height={15} />),
     getItem("Reports", "9", <Image src={Report} alt="Reports"
-        width={20} height={20} />),
+        width={15} height={15} />),
     getItem("API Credentails Management", "10", <Image src={APIImage} alt="API Credentails Management"
-        width={20} height={20} />),
+        width={15} height={15} />),
 ]
