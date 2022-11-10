@@ -1,8 +1,11 @@
 import { SearchOutlined } from '@ant-design/icons';
-import { Button, Input, Space, Table } from 'antd';
+import {
+    Button, Input, Space,
+    Table, Tag, Card
+} from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
-// import Highlighter from 'react-highlight-words';
-import { DremioCatalogAPI } from '../endPointsURL';
+import Highlighter from 'react-highlight-words';
+import { getDremioAPIURL } from '../endPointsURL';
 import https from 'https'
 
 
@@ -11,6 +14,8 @@ function Catalog() {
     const [data, setData] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
+
+    const [loading, setLoading] = useState(true)
     const searchInput = useRef(null);
 
 
@@ -65,7 +70,7 @@ function Catalog() {
                     >
                         Reset
                     </Button>
-                    <Button
+                    {/* <Button
                         type="link"
                         size="small"
                         onClick={() => {
@@ -77,16 +82,14 @@ function Catalog() {
                         }}
                     >
                         Filter
-                    </Button>
-                    <Button
+                    </Button> */}
+                    {/* <Button
                         type="link"
                         size="small"
-                        onClick={() => {
-                            close();
-                        }}
+                        onClick={() => close()}
                     >
                         close
-                    </Button>
+                    </Button> */}
                 </Space>
             </div>
         ),
@@ -124,55 +127,37 @@ function Catalog() {
 
     const getCatalogApi = async () => {
 
-        const auth = 'h767vod90aibk0e7mbvl2j788o';
-
-        await fetch(DremioCatalogAPI, {
+        await fetch(getDremioAPIURL, {
             method: 'GET',
-            mode: 'cors',
-            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': auth,
-                'Access-Control-Allow-Origin': 'http://localhost:3000'
             },
         })
             .then((response) => response.json())
             .then((res) => {
-                console.log(res);
-                setData([])
+                // console.log(res);
+                setData(res.catalogData)
+                setLoading(false)
             })
             .catch((err) => {
                 console.log(err)
+                setLoading(false)
                 setData([])
             });
     }
 
-    // const getCatalogapi = async () => {
 
-    //     const auth = 'h767vod90aibk0e7mbvl2j788o';
+    const getData = data?.map((v, index) => {
+        return {
+            id: v.id,
+            containerType: v.containerType,
+            path: v.path[0],
+            tag: v.tag,
+            type: v.type,
+            createdAt: v.createdAt
+        }
+    })
 
-    //     let headers = new Headers();
-
-    //     headers.append('Content-Type', 'application/json');
-    //     headers.append('Authorization', auth);
-    //     headers.append('Origin', 'http://localhost:3000');
-
-    //     await fetch(DremioCatalogAPI, {
-    //         method: 'GET',
-    //         mode: 'cors',
-    //         credentials: 'include',
-    //         headers: headers,
-    //     })
-    //         .then((response) => response.json())
-    //         .then((res) => {
-    //             console.log(res);
-    //             setData([])
-    //         })
-    //         .catch((err) => {
-    //             console.log(err)
-    //             setData([])
-    //         });
-    // }
 
     useEffect(() => {
         getCatalogApi()
@@ -182,42 +167,61 @@ function Catalog() {
         {
             title: 'Id',
             dataIndex: 'id',
-            key: 'name',
-            ...getColumnSearchProps('name'),
+            key: 'id',
+            ...getColumnSearchProps('id'),
+            sorter: (a, b) => a.id.length - b.id.length,
+            sortDirections: ['descend'],
         },
         {
             title: 'Path',
-            dataIndex: 'age',
-            key: 'age',
-            ...getColumnSearchProps('age'),
+            dataIndex: 'path',
+            key: 'path',
+            ...getColumnSearchProps('path'),
         },
         {
             title: 'Tag',
-            dataIndex: 'address',
-            key: 'address',
-            ...getColumnSearchProps('address'),
-            sortDirections: ['descend', 'ascend'],
+            dataIndex: 'tag',
+            key: 'tag',
+            ...getColumnSearchProps('tag'),
         },
+
         {
             title: 'Type',
-            dataIndex: 'address',
-            key: 'address',
-            ...getColumnSearchProps('address'),
-            sortDirections: ['descend', 'ascend'],
+            dataIndex: 'type',
+            key: 'type',
+            ...getColumnSearchProps('type'),
+            render: function (v, record, index) {
+                if (v === "CONTAINER") {
+                    return <Tag color="blue">CONTAINER</Tag>
+                }
+                else {
+                    return <Tag>{v}</Tag>
+                }
+            }
         },
         {
             title: 'Container Type',
-            dataIndex: 'address',
-            key: 'address',
-            ...getColumnSearchProps('address'),
-            sortDirections: ['descend', 'ascend'],
+            dataIndex: 'containerType',
+            key: 'containerType',
+            ...getColumnSearchProps('containerType'),
+            render: function (v, record, index) {
+                if (v === "SOURCE") {
+                    return <Tag color="green">SORUCE</Tag>
+                }
+                if (v === "SPACE") {
+                    return <Tag color="cyan">SPACE</Tag>
+                }
+                if (v === "HOME") {
+                    return <Tag color="geekblue">HOME</Tag>
+                }
+            }
         },
         {
             title: 'CreatedAt',
-            dataIndex: 'address',
-            key: 'address',
-            ...getColumnSearchProps('address'),
-            sortDirections: ['descend', 'ascend'],
+            dataIndex: 'createdAt',
+            key: 'createdAt',
+            sortDirections: ['ascend' | 'descend'],
+            sorter: (a, b) => a.createdAt.length - b.createdAt.length,
         },
     ];
 
@@ -225,10 +229,24 @@ function Catalog() {
         <div className='container'>
             <div className='row rowmargin'>
                 <div className='col-md-12'>
-                    <Table
-                        columns={columns}
-                        dataSource={data}
-                    />
+                    <Card
+                        type={'inner'}
+                        title={'Catalog Data'}
+                        bordered={false}
+                        className={'cardLayout'}
+                        style={{marginBottom: '10px'}}
+                    >
+                        <Table
+                            pagination={{
+                                defaultPageSize: 20,
+                                showSizeChanger: true,
+                                pageSizeOptions: ['20', '50']
+                            }}
+                            columns={columns}
+                            dataSource={getData}
+                            loading={!loading ? false : true}
+                        />
+                    </Card>
                 </div>
             </div>
         </div>

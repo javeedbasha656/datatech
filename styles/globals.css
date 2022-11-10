@@ -208,6 +208,7 @@ a {
 .profileuser {
   color: var(--titleColor);
   font-weight: 600;
+  font-size: 14px;
 }
 
 .ant-avatar {
@@ -234,7 +235,6 @@ a {
 .ant-menu-inline.ant-menu-root .ant-menu-item>.ant-menu-title-content,
 .ant-menu-inline.ant-menu-root .ant-menu-submenu-title>.ant-menu-title-content {
   color: var(--black) !important;
-  font-weight: 500;
 }
 
 .ant-card-type-inner .ant-card-body {
@@ -497,4 +497,20 @@ a {
 
 .error {
   color: var(--errorColor);
+}
+
+.ant-table-column-title {
+  position: relative;
+  z-index: 1;
+  flex: 1 1;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.ant-table-thead > tr > th, .ant-table-tbody > tr > td, 
+.ant-table tfoot > tr > th, .ant-table tfoot > tr > td {
+  position: relative;
+  padding: 8px 10px !important;
+  overflow-wrap: break-word;
+  font-size: 13px;
 }
