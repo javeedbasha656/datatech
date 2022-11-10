@@ -35,7 +35,7 @@ export default function Home({ }) {
                   width={300}
                   height={300}
                 />
-                <p style={{ fontWeight: '600' }}>You don't have any topic. Create your topic!</p>
+                <p style={{ fontWeight: '600' }}>{`You don't have any topic. Create your topic!`}</p>
               </div>
             </Card>
           </div>
