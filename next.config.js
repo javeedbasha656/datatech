@@ -7,7 +7,9 @@ module.exports = nextConfig
 
 module.exports = {
   env: {
-    DB_URL:'Server=itsfi-tr-mi-sql01.e57c104c9ca0.database.windows.net;Database=ITSFIDataFramework;User Id=skadf_svc;Password=skadf_2022;Encrypt=true'
+    DB_URL: 'Server=itsfi-tr-mi-sql01.e57c104c9ca0.database.windows.net;Database=ITSFIDataFramework;User Id=skadf_svc;Password=skadf_2022;Encrypt=true',
+    Dremio_UN: "findataapi_svc",
+    Dremio_Pass: "findataapi_2022"
   },
 }
 
