@@ -2,6 +2,7 @@
 import _ from 'lodash'
 import moment from 'moment'
 import { getDremioAuth } from '../../../services/dremio'
+import { DremioCatalogAPI } from '../../../endPointsURL';
 
 async function handler(req, res) {
 
@@ -12,7 +13,7 @@ async function handler(req, res) {
             if (authToken) {
                 console.log("authToken details: ", authToken)
                 // Call dremio catalog api 
-                const response = await fetch('https://findata-dev.worldbank.org/api/v3/catalog', {
+                const response = await fetch(DremioCatalogAPI, {
                     method: 'GET',
                     headers: { 'Content-Type': 'application/json', 'Authorization': authToken }
                 })
