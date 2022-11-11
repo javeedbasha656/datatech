@@ -44,6 +44,6 @@ export const MenuItems = [
         width={15} height={15} />),
     getItem("Reports", "9", <Image src={Report} alt="Reports"
         width={15} height={15} />),
-    getItem("API Credentails Management", "10", <Image src={APIImage} alt="API Credentails Management"
+    getItem("API Credentials Management", "10", <Image src={APIImage} alt="API Credentials Management"
         width={15} height={15} />),
 ]
