@@ -11,7 +11,6 @@ async function handler(req, res) {
             // Get dremio auth token
             let authToken = await getDremioAuth()
             if (authToken) {
-                console.log("authToken details: ", authToken)
                 // Call dremio catalog api 
                 const response = await fetch(DremioCatalogAPI, {
                     method: 'GET',
