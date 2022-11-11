@@ -56,7 +56,8 @@ function ProfileAvatar() {
                 trigger={['click']}>
                 <Space>
                     <Avatar size={30}
-                        style={{ lineHeight: '25px' }}
+                        style={{ lineHeight: '22px', 
+                    fontSize: '14px' }}
                         icon={<UserOutlined />}
                         className={'profile'} />
                     <span className='profileuser'>wb542341</span>

@@ -25,11 +25,11 @@ async function handler(req, res) {
                 }
             }
             else {
-                res.status(500).json({ message: 'Something went wrong...please try again later' })
+                res.status(500).json({ message: 'Something went wrong...please try again later1' })
             }
         } catch (err) {
             console.log("Err: ", err)
-            res.status(500).json({ message: 'Something went wrong...please try again later' })
+            res.status(500).json({ message: 'Something went wrong...please try again later2' })
         }
     }
     else {
