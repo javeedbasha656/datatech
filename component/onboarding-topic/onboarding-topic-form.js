@@ -6,7 +6,7 @@ import {
 } from 'antd';
 import Router from 'next/router'
 // import styles from './OnboardingStepForm.module.css'
-import { TestUserAPI } from '../../endPointsURL';
+// import { TestUserAPI } from '../../endPointsURL';
 
 const { Step } = Steps;
 
@@ -40,12 +40,12 @@ function OnboardingTopicForm(props) {
 
     const [user, setUser] = useState([])
 
-    const getApi = async () => {
-        const res = await fetch(TestUserAPI)
-        const data = await res.json()
-        // console.log(data)
-        setUser(data)
-    }
+    // const getApi = async () => {
+    //     const res = await fetch(TestUserAPI)
+    //     const data = await res.json()
+    //     // console.log(data)
+    //     setUser(data)
+    // }
 
     useEffect(() => {
         getApi()
@@ -150,7 +150,7 @@ function OnboardingTopicForm(props) {
                                 <Input placeholder="Username" />
                             </Form.Item>
                         </div>
-                        <div className='col-md-6'>
+                        {/* <div className='col-md-6'>
                             <Form.Item
                                 label={<span>Person:</span>}
                                 name="person"
@@ -185,7 +185,7 @@ function OnboardingTopicForm(props) {
                                     )}
                                 </Select>
                             </Form.Item>
-                        </div>
+                        </div> */}
                     </div>
                     <div className='row'>
                         <div className='col-md-6'>
