@@ -47,6 +47,11 @@ function OnboardingTopicForm(props) {
     }, [])
 
 
+    const submitTopicApi = async (value) => {
+        console.log("Submitted values:", value)
+    }
+
+
     const {
         form,
         current,
@@ -59,7 +64,8 @@ function OnboardingTopicForm(props) {
         async submit(values) {
             try {
                 if (values.length !== 0) {
-                    console.log(values);
+                    // console.log(values);
+                    submitTopicApi(values)
                     setTimeout(() => {
                         Router.push('/')
                         message.success('Your data is saved and pushed to database');
@@ -72,7 +78,7 @@ function OnboardingTopicForm(props) {
                 message.danger('Something error has found');
             }
         },
-        total: 4,
+        total: 5,
         isBackValidate: false
     });
 
@@ -85,7 +91,7 @@ function OnboardingTopicForm(props) {
         >
             <div className='row rowmargin'>
                 <div className='col-md-6'>
-                    <label>Username<span class="error">*</span></label>
+                    <label>Username<span className="error">*</span></label>
                     <Form.Item
                         label=""
                         name="username"
@@ -100,7 +106,7 @@ function OnboardingTopicForm(props) {
                     </Form.Item >
                 </div>
                 <div className='col-md-6'>
-                    <lable>Email</lable>
+                    <label>Email</label>
                     <Form.Item
                         label=""
                         name="email"
@@ -247,6 +253,53 @@ function OnboardingTopicForm(props) {
                         <Button
                             type="primary"
                             className={'submitbtn submitButtonAlign'}
+                            onClick={() => gotoStep(current + 1)}
+                        >
+                            Next
+                        </Button>
+                    </Form.Item>
+                </div>
+            </div>,
+        </Card>,
+
+        <Card
+            type="inner"
+            title="Step 3"
+            bordered={false}
+            className={'cardLayout'}
+        >
+            <div className='row'>
+                <div className='col-md-6'>
+                    <label>State<span className='error'>*</span></label>
+                    <Form.Item
+                        label=""
+                        name="state"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input state',
+                            },
+                        ]}
+                    >
+                        <Input placeholder="State" />
+                    </Form.Item>
+                </div>
+            </div>
+            <div className='row'>
+                <div className='col-md-6'>
+                    <Form.Item>
+                        <Button
+                            className={'backbtnAlign backBtn'}
+                            onClick={() => gotoStep(current - 1)}
+                            style={{ marginRight: 10 }}>
+                            Prev</Button>
+                    </Form.Item>
+                </div>
+                <div className='col-md-6'>
+                    <Form.Item>
+                        <Button
+                            type="primary"
+                            className={'submitbtn submitButtonAlign'}
                             loading={formLoading}
                             onClick={() => {
                                 submit().then(result => {
@@ -261,7 +314,7 @@ function OnboardingTopicForm(props) {
                     </Form.Item>
                 </div>
             </div>,
-        </Card>
+        </Card>,
     ];
 
     return (
@@ -278,6 +331,7 @@ function OnboardingTopicForm(props) {
                                 <Step title="Step 1" />
                                 <Step title="Step 2" />
                                 <Step title="Step 3" />
+                                <Step title="Step 4" />
                             </Steps>
                         </Card>
 
@@ -286,7 +340,7 @@ function OnboardingTopicForm(props) {
                                 {formList[current]}
                             </Form>
 
-                            {current === 3 && (
+                            {current === 4 && (
                                 <Card
                                     bordered={false}
                                     title={null}

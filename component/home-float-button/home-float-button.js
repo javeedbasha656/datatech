@@ -7,6 +7,7 @@ import Approve from '../../public/images/approve.png'
 import Subscribe from '../../public/images/subscribe.png'
 import Publish from '../../public/images/publish.png'
 import Create from '../../public/images/create_topic.png'
+import Link from 'next/link';
 
 
 const mainButtonstyles = {
@@ -34,7 +35,7 @@ function QuickLinksButton() {
             onClick={false}
         >
             <Action
-                text="Subscribe Topic"
+                text={<Link href="/">Subscribe Topic</Link>}
                 onClick={() => Router.push('https://stackblitz.com/')}
                 style={tinyButtonSytles}
             >
@@ -62,7 +63,7 @@ function QuickLinksButton() {
                 <Image src={Create} alt="api" width={25} height={25} />
             </Action>
             <Action
-                text="Create Applicaiton"
+                text={<Link href="/onboardingApplication">Create Applicaiton</Link>}
                 onClick={() => Router.push('/onboardingApplication')}
                 style={tinyButtonSytles}
             >
