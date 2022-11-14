@@ -28,12 +28,7 @@ const layout = {
         span: 24,
     },
 };
-const tailLayout = {
-    wrapperCol: {
-        offset: 8,
-        span: 16,
-    },
-};
+
 
 
 function OnboardingTopicForm(props) {
@@ -48,7 +43,7 @@ function OnboardingTopicForm(props) {
     // }
 
     useEffect(() => {
-        getApi()
+        // getApi()
     }, [])
 
 
@@ -67,7 +62,7 @@ function OnboardingTopicForm(props) {
                     console.log(values);
                     setTimeout(() => {
                         Router.push('/')
-                        message.success('Submitted the data successfully');
+                        message.success('Your data is saved and pushed to database');
                     }, 3000)
                     return 'ok';
                 }
@@ -78,6 +73,7 @@ function OnboardingTopicForm(props) {
             }
         },
         total: 4,
+        isBackValidate: false
     });
 
     const formList = [
@@ -89,9 +85,9 @@ function OnboardingTopicForm(props) {
         >
             <div className='row rowmargin'>
                 <div className='col-md-6'>
+                    <label>Username<span class="error">*</span></label>
                     <Form.Item
-                        label={<span>Username:</span>}
-                        // className={styles.labelCenter}
+                        label=""
                         name="username"
                         rules={[
                             {
@@ -104,8 +100,9 @@ function OnboardingTopicForm(props) {
                     </Form.Item >
                 </div>
                 <div className='col-md-6'>
+                    <lable>Email</lable>
                     <Form.Item
-                        label={<span>Email:</span>}
+                        label=""
                         name="email"
                     // className={styles.labelCenter}
                     >
@@ -136,9 +133,10 @@ function OnboardingTopicForm(props) {
                 <div className='col-md-12'>
                     <div className='row'>
                         <div className='col-md-6'>
+                            <label>First Name<span className='error'>*</span></label>
                             <Form.Item
                                 // className={styles.labelCenter}
-                                label={<span>First Name:</span>}
+                                label=""
                                 name="firstname"
                                 rules={[
                                     {
@@ -217,36 +215,53 @@ function OnboardingTopicForm(props) {
             bordered={false}
             className={'cardLayout'}
         >
-            <Form.Item
-                label={<span>Address:</span>}
-                name="address"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Please input address',
-                    },
-                ]}
-            >
-                <Input placeholder="Address" />
-            </Form.Item>
-            <Form.Item {...tailLayout}>
-                <Button
-                    style={{ marginRight: 10 }}
-                    type="primary"
-                    loading={formLoading}
-                    onClick={() => {
-                        submit().then(result => {
-                            if (result === 'ok') {
-                                gotoStep(current + 1);
-                            }
-                        });
-                    }}
-                >
-                    Submit
-                </Button>
-                <Button onClick={() => gotoStep(current - 1)}>Prev</Button>
-            </Form.Item>
-        </Card>,
+            <div className='row'>
+                <div className='col-md-6'>
+                    <label>Address<span className='error'>*</span></label>
+                    <Form.Item
+                        label=""
+                        name="address"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input address',
+                            },
+                        ]}
+                    >
+                        <Input placeholder="Address" />
+                    </Form.Item>
+                </div>
+            </div>
+            <div className='row'>
+                <div className='col-md-6'>
+                    <Form.Item>
+                        <Button
+                            className={'backbtnAlign backBtn'}
+                            onClick={() => gotoStep(current - 1)}
+                            style={{ marginRight: 10 }}>
+                            Prev</Button>
+                    </Form.Item>
+                </div>
+                <div className='col-md-6'>
+                    <Form.Item>
+                        <Button
+                            type="primary"
+                            className={'submitbtn submitButtonAlign'}
+                            loading={formLoading}
+                            onClick={() => {
+                                submit().then(result => {
+                                    if (result === 'ok') {
+                                        gotoStep(current + 1);
+                                    }
+                                });
+                            }}
+                        >
+                            Submit
+                        </Button>
+                    </Form.Item>
+                </div>
+            </div>,
+        </Card>
     ];
 
     return (
