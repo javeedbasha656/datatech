@@ -10,12 +10,11 @@ async function handler(req, res) {
         try {
             let queryData = await dbQueries()
             let query = queryData.getDomain
-            // console.log("query: ", query)
 
             let connPool = await dbConnection(query)
             let result = await connPool.request().query(query);
             connPool.close()
-            console.log("End time: ", moment().format('DD-MM-YYYY hh:mm:ss'))
+            // console.log("End time: ", moment().format('DD-MM-YYYY hh:mm:ss'))
 
             let domainList = result.recordset
             if (_.isArray(domainList) && domainList.length > 0) {

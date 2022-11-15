@@ -21,7 +21,7 @@ async function handler(req, res) {
                     .query(query);
 
                 connPool.close()
-                console.log("End time: ", moment().format('DD-MM-YYYY hh:mm:ss'))
+                // console.log("End time: ", moment().format('DD-MM-YYYY hh:mm:ss'))
                 let subDomainList = result.recordset
 
                 if (_.isArray(subDomainList) && subDomainList.length > 0) {
