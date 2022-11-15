@@ -43,10 +43,8 @@ async function handler(req, res) {
                     .execute(`LoadControl.SP_PopulateOnBoardingApp`);
 
                 connPool.close()
-                console.log("End time: ", moment().format('DD-MM-YYYY hh:mm:ss'))
+                // console.log("End time: ", moment().format('DD-MM-YYYY hh:mm:ss'))
                 let rowsAffected = result.rowsAffected
-                // console.log("rowsAffected: ", rowsAffected)
-                // console.log("result: ", result)
 
                 if (_.isArray(rowsAffected) && rowsAffected.length > 0) {
                     res.status(200).json({ status: 'Success', message: `Application submitted successfully` })

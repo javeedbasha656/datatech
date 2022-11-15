@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import GitHubProvider from "next-auth/providers/github"
 
-console.log('githubId:', process)
+// console.log('githubId:', process)
 
 export default NextAuth({
 	providers: [
