@@ -9,23 +9,25 @@ async function handler(req, res) {
     if (req.method == 'POST') {
         let body = req.body
         let domain = body.domain
-        if (domain) {
+        let subDomain = body.subDomain
+        if (domain && subDomain) {
             try {
+                // Get sql queries
                 let queries = await dbQueries()
-                let query = queries.getSubDomain
-                // console.log("Query: ", query)
-
+                let query = queries.getAppCodes
+                // fetch data from db
                 let connPool = await dbConnection()
                 let result = await connPool.request()
                     .input('domain', domain)
+                    .input('subDomain', subDomain)
                     .query(query);
 
                 connPool.close()
                 // console.log("End time: ", moment().format('DD-MM-YYYY hh:mm:ss'))
-                let subDomainList = result.recordset
+                let appCodeList = result.recordset
 
-                if (_.isArray(subDomainList) && subDomainList.length > 0) {
-                    res.status(200).json({ message: 'Success', data: subDomainList })
+                if (_.isArray(appCodeList) && appCodeList.length > 0) {
+                    res.status(200).json({ message: 'Success', data: appCodeList })
                 } else {
                     res.status(200).json({ message: 'Data not found', data: [] })
                 }
@@ -34,7 +36,7 @@ async function handler(req, res) {
                 res.status(500).json({ message: 'Something went wrong...please try again later' })
             }
         } else {
-            res.status(500).json({ message: 'Invalid domain passed' })
+            res.status(500).json({ message: 'Invalid domain or subDomain passed' })
         }
 
     } else {

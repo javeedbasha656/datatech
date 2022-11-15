@@ -15,7 +15,7 @@ async function handler(req, res) {
         let connPool = await dbConnection()
         let result = await connPool.request().query(query);
         connPool.close()
-        console.log("End time: ", moment().format('DD-MM-YYYY hh:mm:ss'))
+        // console.log("End time: ", moment().format('DD-MM-YYYY hh:mm:ss'))
         let dataList = result.recordset
 
         if (_.isArray(dataList) && dataList.length > 0) {

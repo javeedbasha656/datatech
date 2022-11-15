@@ -11,7 +11,6 @@ async function handler(req, res) {
             // Get dremio auth token
             let authToken = await getDremioAuth()
             if (authToken) {
-                console.log("authToken details: ", authToken)
                 // Call dremio catalog api 
                 const response = await fetch(DremioCatalogAPI, {
                     method: 'GET',
@@ -26,11 +25,11 @@ async function handler(req, res) {
                 }
             }
             else {
-                res.status(500).json({ message: 'Something went wrong...please try again later1' })
+                res.status(500).json({ message: 'Something went wrong...dremio authentication failed' })
             }
         } catch (err) {
             console.log("Err: ", err)
-            res.status(500).json({ message: 'Something went wrong...please try again later2' })
+            res.status(500).json({ message: 'Something went wrong...please try again later' })
         }
     }
     else {
