@@ -189,8 +189,18 @@ a {
 }
 
 .ant-menu-inline>.ant-menu-item {
-  height: 40px !important;
-  line-height: 40px !important;
+  height: 25px !important;
+  line-height: 25px !important;
+}
+
+.ant-menu{
+  font-size: 12px !important;
+  font-weight: 600;
+}
+
+.ant-menu ul, .ant-menu ol {
+  font-size: 12px !important;
+  font-weight: 600;
 }
 
 .profileImg {
@@ -242,6 +252,15 @@ a {
 .ant-menu-inline.ant-menu-root .ant-menu-submenu-title>.ant-menu-title-content {
   color: var(--black) !important;
 }
+.ant-menu-vertical > .ant-menu-item, .ant-menu-vertical-left > 
+.ant-menu-item, .ant-menu-vertical-right > .ant-menu-item, .ant-menu-inline > 
+.ant-menu-item, .ant-menu-vertical > .ant-menu-submenu > .ant-menu-submenu-title, 
+.ant-menu-vertical-left > .ant-menu-submenu > .ant-menu-submenu-title, .ant-menu-vertical-right > 
+.ant-menu-submenu > .ant-menu-submenu-title, .ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title
+{
+  height: 25px !important;
+  line-height: 25px !important;
+}
 
 .ant-card-type-inner .ant-card-body {
   padding: 8px 12px !important;
@@ -263,6 +282,10 @@ a {
   color: #ffffff !important;
   font-size: 14px;
   background: #2b3244 !important;
+}
+
+.ant-form label {
+  font-size: 12px !important;
 }
 
 .rtf--ab__c>span {
@@ -426,7 +449,7 @@ a {
 
 .ant-card-type-inner .ant-card-head-title {
   padding: 6px 0 !important;
-  font-size: 16px !important;
+  font-size: 14px !important;
   color: var(--titleColor) !important;
   font-weight: 600;
   line-height: 22px;
@@ -518,9 +541,9 @@ a {
 .ant-table tfoot>tr>th,
 .ant-table tfoot>tr>td {
   position: relative;
-  padding: 8px 10px !important;
+  padding: 2px 10px !important;
   overflow-wrap: break-word;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .ant-layout-footer {
@@ -564,4 +587,8 @@ a {
 .homebtn {
   margin-top: 10px;
   margin-bottom: 20px;
+}
+
+.ant-tag{
+  line-height: 15px !important;
 }

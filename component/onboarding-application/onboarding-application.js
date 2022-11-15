@@ -203,7 +203,7 @@ function OnboardingApp(props) {
                             bordered={false}
                             className={'cardLayout'}
                         >
-                            <div className='row rowmargin'>
+                            <div className='row'>
                                 <div className='col-md-6'>
                                     <label>Domain<span className="error">*</span></label>
                                     <Form.Item
@@ -272,7 +272,7 @@ function OnboardingApp(props) {
                                     </Form.Item>
                                 </div>
                             </div>
-                            <div className='row rowmargin'>
+                            <div className='row'>
                                 <div className='col-md-6'>
                                     <label>Application Name<span className="error">*</span></label>
                                     <Form.Item
@@ -304,7 +304,7 @@ function OnboardingApp(props) {
                                     </Form.Item>
                                 </div>
                             </div>
-                            <div className='row rowmargin'>
+                            <div className='row'>
                                 <div className='col-md-6'>
                                     <label>Application Description<span className="error">*</span></label>
                                     <Form.Item
@@ -349,7 +349,7 @@ function OnboardingApp(props) {
                             bordered={false}
                             className={'cardLayout rowmargin'}
                         >
-                            <div className='row rowmargin'>
+                            <div className='row'>
                                 <div className='col-md-6'>
                                     <label>Primary Contact Name:</label>
                                     <Form.Item
@@ -375,7 +375,7 @@ function OnboardingApp(props) {
                                     </Form.Item>
                                 </div>
                             </div>
-                            <div className='row rowmargin'>
+                            <div className='row'>
                                 <div className='col-md-6'>
                                     <label>Secondary Contact Name:</label>
                                     <Form.Item
@@ -401,7 +401,7 @@ function OnboardingApp(props) {
                                     </Form.Item>
                                 </div>
                             </div>
-                            <div className='row rowmargin'>
+                            <div className='row'>
                                 <div className='col-md-6'>
                                     <label>Primary Contact Number:</label>
                                     <Form.Item
@@ -441,7 +441,7 @@ function OnboardingApp(props) {
                                     </Form.Item>
                                 </div>
                             </div>
-                            <div className='row rowmargin'>
+                            <div className='row'>
                                 <div className='col-md-6'>
                                     <label>IT Support Email Address:</label>
                                     <Form.Item

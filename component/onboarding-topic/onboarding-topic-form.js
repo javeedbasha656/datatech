@@ -5,7 +5,10 @@ import {
     Result, Select, message, Empty, Card, Spin
 } from 'antd';
 import Router from 'next/router'
-import { DomainAPIURL, SubDomainAPIURL } from '../../endPointsURL';
+import {
+    DomainAPIURL, SubDomainAPIURL,
+    AppCodeAPIURL
+} from '../../endPointsURL';
 // import styles from './OnboardingStepForm.module.css'
 // import { TestUserAPI } from '../../endPointsURL';
 
@@ -28,9 +31,11 @@ function OnboardingTopicForm(props) {
 
     const [domain, setDomain] = useState([])
     const [subdomain, setsubdomain] = useState([])
-    const [selectsubdomain, setsubselectdomain] = useState(false)
+    const [appcode, setappCode] = useState([])
     const [subloading, setsubloading] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [apploading, setapploading] = useState(false)
+    const [domValue, setdomValue] = useState('')
 
 
     //function get domain list from api
@@ -85,13 +90,47 @@ function OnboardingTopicForm(props) {
             });
     }
 
+    const getAppCodeApi = async (domainid, subid) => {
+        console.log(domainid, subid)
+
+        setapploading(true)
+        setappCode([])
+
+        const domvalue = (domainid === undefined) || (domainid === "") ? "" : domainid
+        const subvalue = (subid === undefined) || (subid === "") ? "" : subid
+
+        var obj = {
+            domain: domvalue,
+            subDomain: subvalue
+        }
+
+        await fetch(AppCodeAPIURL, {
+            method: 'POST',
+            body: JSON.stringify(obj),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((res) => {
+                console.log(res);
+                setappCode(res.data)
+                setapploading(false)
+            })
+            .catch((err) => {
+                console.log(err)
+                setappCode([])
+                setapploading(false)
+            });
+    }
+
     //domain onchange function
     const domainChange = (value) => {
         setsubloading(true)
-        setsubselectdomain(false)
         form.resetFields(["subdomain"])
         setsubdomain([])
         console.log(`Domain selected ${value}`);
+        setdomValue(value)
         if (value === "") {
             setsubdomain([])
             setsubselectdomain(true)
@@ -101,7 +140,7 @@ function OnboardingTopicForm(props) {
         else {
             getSubDomainApi(value)
             setsubloading(false)
-            setsubselectdomain(false)
+
         }
     };
 
@@ -112,7 +151,19 @@ function OnboardingTopicForm(props) {
 
     //subdomain onchange function
     const subdomainChange = (value) => {
-        console.log(`Subdomain selected ${value}`);
+
+        const domId = domValue
+        console.log(`domain & subdomain: ${domId} ${value}`);
+
+        form.resetFields(["appcode"])
+        setappCode([])
+
+        if (domId === "" && value.length === 0) {
+            setappCode([])
+        }
+        else {
+            getAppCodeApi(domId, value)
+        }
     };
 
     //subdomain search function
@@ -222,9 +273,7 @@ function OnboardingTopicForm(props) {
                     >
                         <Select
                             showSearch
-                            disabled={
-                                (selectsubdomain) || (subdomain.length) === 0
-                                    ? true : false}
+                            disabled={subdomain.length === 0 ? true : false}
                             loading={subloading ? <Spin /> : null}
                             placeholder="Select Subdomain Name"
                             optionFilterProp="children"
@@ -259,17 +308,23 @@ function OnboardingTopicForm(props) {
                     >
                         <Select
                             showSearch
-                            // disabled={domain.length === 0 ? true : false}
+                            disabled={appcode.length === 0 ? true : false}
                             placeholder="Select App Code"
                             optionFilterProp="children"
-                            // loading={loading ? <Spin /> : null}
+                            loading={apploading ? <Spin /> : null}
                             filterOption={(input, option) =>
                                 option.children.toLowerCase().includes(input.toLowerCase())}
                             onChange={appChange}
                             onSearch={appSearch}
                         >
-                            <Option value={0}>App Code1</Option>
-                            <Option value={1}>App Code2</Option>
+                            {appcode?.map((app, index) => {
+                                return (
+                                    <Option key={index}
+                                        value={app.DataSource_App_Code}>
+                                        {app.DataSource_App_Abb_Name}
+                                    </Option>
+                                )
+                            })}
                         </Select>
                     </Form.Item>
                 </div>
