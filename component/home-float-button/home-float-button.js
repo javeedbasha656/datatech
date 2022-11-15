@@ -42,21 +42,21 @@ function QuickLinksButton() {
                 <Image src={Subscribe} alt="api" width={25} height={25} />
             </Action>
             <Action
-                text="Publish Topic"
+                text={<Link href="/">Publish Topic</Link>}
                 onClick={() => Router.push('https://stackblitz.com/')}
                 style={tinyButtonSytles}
             >
                 <Image src={Publish} alt="api" width={25} height={25} />
             </Action>
             <Action
-                text="Approve Topic"
+                text={<Link href="/">Approve Topic</Link>}
                 onClick={false}
                 style={tinyButtonSytles}
             >
                 <Image src={Approve} alt="api" width={25} height={25} />
             </Action>
             <Action
-                text="Create Topic"
+                text={<Link href="/">Create Topic</Link>}
                 onClick={() => Router.push('/onboardingTopic')}
                 style={tinyButtonSytles}
             >

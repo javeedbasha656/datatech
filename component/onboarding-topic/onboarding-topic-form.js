@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useStepsForm } from 'sunflower-antd';
 import {
     Steps, Input, Button, Form,
-    Result, Select, message, Empty, Card
+    Result, Select, message, Empty, Card, Spin
 } from 'antd';
 import Router from 'next/router'
+import { DomainAPIURL, SubDomainAPIURL } from '../../endPointsURL';
 // import styles from './OnboardingStepForm.module.css'
 // import { TestUserAPI } from '../../endPointsURL';
 
@@ -12,13 +13,6 @@ const { Step } = Steps;
 
 const { Option } = Select;
 
-const onChange = (value) => {
-    console.log(`selected ${value}`);
-};
-
-const onSearch = (value) => {
-    console.log('search:', value);
-};
 
 const layout = {
     labelCol: {
@@ -30,20 +24,112 @@ const layout = {
 };
 
 
-
 function OnboardingTopicForm(props) {
 
-    const [user, setUser] = useState([])
+    const [domain, setDomain] = useState([])
+    const [subdomain, setsubdomain] = useState([])
+    const [selectsubdomain, setsubselectdomain] = useState(false)
+    const [subloading, setsubloading] = useState(false)
+    const [loading, setLoading] = useState(true)
 
-    // const getApi = async () => {
-    //     const res = await fetch(TestUserAPI)
-    //     const data = await res.json()
-    //     // console.log(data)
-    //     setUser(data)
-    // }
+
+    //function get domain list from api
+    const getDomainApi = async () => {
+        await fetch(DomainAPIURL, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                // console.log(data);
+                setDomain(data)
+                setLoading(false)
+            })
+            .catch((err) => {
+                console.log(err)
+                setDomain([])
+                setLoading(false)
+            });
+    }
+
+    //function get subdomain list from api
+    const getSubDomainApi = async (id) => {
+        // console.log(id)
+        setsubloading(true)
+        setsubdomain([])
+        const value = (id === undefined) || (id === "") ? "" : id
+
+        var obj = {
+            domain: value
+        }
+
+        await fetch(SubDomainAPIURL, {
+            method: 'POST',
+            body: JSON.stringify(obj),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((res) => {
+                console.log(res);
+                setsubdomain(res.data)
+                setsubloading(false)
+            })
+            .catch((err) => {
+                console.log(err)
+                setsubdomain([])
+                setsubloading(false)
+            });
+    }
+
+    //domain onchange function
+    const domainChange = (value) => {
+        setsubloading(true)
+        setsubselectdomain(false)
+        form.resetFields(["subdomain"])
+        setsubdomain([])
+        console.log(`Domain selected ${value}`);
+        if (value === "") {
+            setsubdomain([])
+            setsubselectdomain(true)
+            setsubloading(false)
+            form.resetFields(["subdomain"])
+        }
+        else {
+            getSubDomainApi(value)
+            setsubloading(false)
+            setsubselectdomain(false)
+        }
+    };
+
+    //domain search function
+    const domainSearch = (value) => {
+        console.log('Domain search:', value);
+    };
+
+    //subdomain onchange function
+    const subdomainChange = (value) => {
+        console.log(`Subdomain selected ${value}`);
+    };
+
+    //subdomain search function
+    const subdomainSearch = (value) => {
+        console.log('Subdomain search:', value);
+    };
+
+    const appChange = (value) => {
+        console.log(value)
+    }
+
+    const appSearch = (value) => {
+        console.log(value)
+    }
 
     useEffect(() => {
-        // getApi()
+        getDomainApi()
     }, [])
 
 
@@ -91,29 +177,104 @@ function OnboardingTopicForm(props) {
         >
             <div className='row rowmargin'>
                 <div className='col-md-6'>
-                    <label>Username<span className="error">*</span></label>
+                    <label>Domain<span className="error">*</span></label>
                     <Form.Item
                         label=""
-                        name="username"
+                        name="domain"
                         rules={[
                             {
                                 required: true,
-                                message: 'Please input username',
+                                message: 'Please Select domain!',
                             },
                         ]}
                     >
-                        <Input placeholder="Username" />
-                    </Form.Item >
+                        <Select
+                            showSearch
+                            disabled={domain.length === 0 ? true : false}
+                            placeholder="Select Domain Name"
+                            optionFilterProp="children"
+                            loading={loading ? <Spin /> : null}
+                            filterOption={(input, option) =>
+                                option.children.toLowerCase().includes(input.toLowerCase())}
+                            onChange={domainChange}
+                            onSearch={domainSearch}
+                        >
+                            {domain?.domainList?.map((item, index) => {
+                                return (
+                                    <Option key={index} value={item.Info_Domain_Code}>
+                                        {item.Info_Domain_Long_Name}</Option>
+                                )
+                            })}
+                        </Select>
+                    </Form.Item>
                 </div>
                 <div className='col-md-6'>
-                    <label>Email</label>
+                    <label>Sub Domain<span className="error">*</span></label>
                     <Form.Item
                         label=""
-                        name="email"
-                    // className={styles.labelCenter}
+                        name="subdomain"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please Select subdomain!',
+                            },
+                        ]}
                     >
-                        <Input placeholder="Email" />
+                        <Select
+                            showSearch
+                            disabled={
+                                (selectsubdomain) || (subdomain.length) === 0
+                                    ? true : false}
+                            loading={subloading ? <Spin /> : null}
+                            placeholder="Select Subdomain Name"
+                            optionFilterProp="children"
+                            filterOption={(input, option) =>
+                                option.children.toLowerCase().includes(input.toLowerCase())}
+                            onChange={subdomainChange}
+                            onSearch={subdomainSearch}
+                        >
+                            {subdomain?.map((sub, index) => {
+                                return (
+                                    <Option key={index}
+                                        value={sub.Info_SubDomain_Code}>
+                                        {sub.Info_SubDomain_Long_Name}</Option>
+                                )
+                            })}
+                        </Select>
                     </Form.Item>
+                </div>
+            </div>
+            <div className='row rowmargin'>
+                <div className='col-md-6'>
+                    <label>App Code<span className="error">*</span></label>
+                    <Form.Item
+                        label=""
+                        name="appcode"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please Select app!',
+                            },
+                        ]}
+                    >
+                        <Select
+                            showSearch
+                            // disabled={domain.length === 0 ? true : false}
+                            placeholder="Select App Code"
+                            optionFilterProp="children"
+                            // loading={loading ? <Spin /> : null}
+                            filterOption={(input, option) =>
+                                option.children.toLowerCase().includes(input.toLowerCase())}
+                            onChange={appChange}
+                            onSearch={appSearch}
+                        >
+                            <Option value={0}>App Code1</Option>
+                            <Option value={1}>App Code2</Option>
+                        </Select>
+                    </Form.Item>
+                </div>
+                <div className='col-md-6'>
+
                 </div>
             </div>
             <div className='row'>
