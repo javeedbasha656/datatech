@@ -1,8 +1,19 @@
-function logger (uniqueId,timestamp,message,error,data){
+function logger(uniqueId, message, error, reqData, resData) {
 
-    // let timestamp =
+    let timestamp = Date.now()
+    // logging the values
+    let logs = {
+        "uniqueId": uniqueId,
+        "timestamp": timestamp,
+        "message": message,
+        "error": error,
+        "requestData": reqData ? JSON.stringify(reqData) : '',
+        "responseData": resData ? JSON.stringify(resData) : ''
+    }
+    // console.log(logs)
 
-    console.log(uniqueId,timestamp,message,error,data)
+    // Storing log details in Db
+
 
 }
 
