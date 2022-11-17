@@ -250,7 +250,7 @@ function OnboardingTopicForm(props) {
                             onChange={domainChange}
                             onSearch={domainSearch}
                         >
-                            {domain?.domainList?.map((item, index) => {
+                            {domain?.data?.map((item, index) => {
                                 return (
                                     <Option key={index} value={item.Info_Domain_Code}>
                                         {item.Info_Domain_Long_Name}</Option>

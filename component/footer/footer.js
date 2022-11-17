@@ -34,7 +34,8 @@ function FooterLayout() {
                 </ul>
             </div>
             <div className={styles.div_right_align}>
-                © {year} The World Bank Group, All Rights Reserved</div>
+                © {year} The World Bank Group, All Rights Reserved
+            </div>
 
         </Footer>
     )
