@@ -21,10 +21,11 @@
     "path": "^0.12.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-highlight-words": "0.18.0",
     "react-tiny-fab": "^4.0.4",
     "sunflower-antd": "^1.0.0-beta.3",
     "superagent": "^8.0.3",
-    "react-highlight-words": "0.18.0"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "eslint": "8.24.0",
