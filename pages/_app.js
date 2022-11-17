@@ -1,7 +1,7 @@
 import '../styles/globals.css'
 import 'antd/dist/antd.css';
 import 'bootstrap/dist/css/bootstrap.css'
-import { createContext } from "react";
+import { createContext, useEffect } from "react";
 import {
   Layout, Menu, Switch,
   Button
@@ -13,8 +13,9 @@ import {
 } from '@ant-design/icons';
 import Footer from '../component/footer/footer'
 import Profile from '../component/common/profile'
-import { MenuItems } from '../component/common/menuItems';
+import { MenuItems, } from '../component/common/menuItems';
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 // import useRouter from 'next/router'
 
 
@@ -36,6 +37,7 @@ function MyApp({ Component, pageProps }) {
     setTheme(value ? "dark" : "light");
   };
 
+
   const ContentAlign = {
     marginLeft: '200px',
   }
@@ -54,6 +56,14 @@ function MyApp({ Component, pageProps }) {
     // console.log(e)
     setCurrent(e.key)
   }
+
+  const router = useRouter()
+  // console.log(router)
+
+  useEffect(() => {
+    // console.log = function(){};
+    setCurrent(router.pathname)
+  })
 
   return (
     <ThemeContext.Provider value={{ theme, themeToggle }}>
@@ -91,8 +101,8 @@ function MyApp({ Component, pageProps }) {
             mode="inline"
             className={theme === "light" ? "light-menu"
               : "dark-menu"}
-            selectedKeys={current}
-            // defaultOpenKeys={['sub1']}
+            selectedKeys={[current]}
+            defaultOpenKeys={['/']}
             onClick={handleMenu}
             items={MenuItems}
           />

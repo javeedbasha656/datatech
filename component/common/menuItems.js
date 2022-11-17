@@ -9,28 +9,33 @@ import Search from '../../public/images/search.svg'
 import Folder from '../../public/images/folder.svg'
 import APIImage from '../../public/images/api.svg'
 import Report from '../../public/images/reports.svg'
+import Link from 'next/link';
 
 
 function getItem(label, key, icon, children, type) {
     return {
+        label,
         key,
         icon,
         children,
-        label,
         type
     };
+
 }
 
-
 export const MenuItems = [
-    getItem("Domain", "1", <Image src={Dashboard} alt="dashboard"
+    getItem(<Link href="/">Applications</Link>, "/", <Image src={Dashboard} alt="Applications"
+        width={15} height={15} />),
+    getItem("Onboarding", "/", <Image src={Database} alt="onboarding"
         width={15} height={15} />, [
-        getItem("Sub-Domain", "sub1"),
-        getItem("Applications", "sub2"),
+        getItem(<Link href='/onboardingApplication'>Onboarding Applications</Link>, "/onboardingApplication"),
+        getItem(<Link href='/onboardingTopic'>Onboarding Topic</Link>, "/onboardingTopic")
     ]),
-    getItem(<span>Publicaition</span>, "2", <Image src={Publication} alt="publication"
+    getItem(<Link href="/catalog">Dremio Catalog</Link>, "/catalog", <Image src={Publication} alt="Catalog"
         width={15} height={15} />),
     getItem("Subscriptions", "3", <Image src={Subscriptions} alt="subscription"
+        width={15} height={15} />),
+    getItem(<span>Publicaition</span>, "2", <Image src={Publication} alt="publication"
         width={15} height={15} />),
     getItem("User Management", "4", <Image src={Users} alt="User Management"
         width={15} height={15} />),

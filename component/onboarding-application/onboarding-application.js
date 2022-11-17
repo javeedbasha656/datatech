@@ -203,9 +203,9 @@ function OnboardingApp(props) {
                             bordered={false}
                             className={'cardLayout'}
                         >
-                            <div className='row rowmargin'>
+                            <div className='row'>
                                 <div className='col-md-6'>
-                                    <label>Domain<span class="error">*</span></label>
+                                    <label>Domain<span className="error">*</span></label>
                                     <Form.Item
                                         label=""
                                         name="domain"
@@ -237,7 +237,7 @@ function OnboardingApp(props) {
                                     </Form.Item>
                                 </div>
                                 <div className='col-md-6'>
-                                    <label>Sub Domain<span class="error">*</span></label>
+                                    <label>Sub Domain<span className="error">*</span></label>
                                     <Form.Item
                                         label=""
                                         name="subdomain"
@@ -272,9 +272,9 @@ function OnboardingApp(props) {
                                     </Form.Item>
                                 </div>
                             </div>
-                            <div className='row rowmargin'>
+                            <div className='row'>
                                 <div className='col-md-6'>
-                                    <label>Application Name<span class="error">*</span></label>
+                                    <label>Application Name<span className="error">*</span></label>
                                     <Form.Item
                                         label=""
                                         name="applicationname"
@@ -289,7 +289,7 @@ function OnboardingApp(props) {
                                     </Form.Item>
                                 </div>
                                 <div className='col-md-6'>
-                                    <label>Application Abbreviated Name<span class="error">*</span></label>
+                                    <label>Application Abbreviated Name<span className="error">*</span></label>
                                     <Form.Item
                                         label=""
                                         name="applicationabbvname"
@@ -304,9 +304,9 @@ function OnboardingApp(props) {
                                     </Form.Item>
                                 </div>
                             </div>
-                            <div className='row rowmargin'>
+                            <div className='row'>
                                 <div className='col-md-6'>
-                                    <label>Application Description<span class="error">*</span></label>
+                                    <label>Application Description<span className="error">*</span></label>
                                     <Form.Item
                                         label=""
                                         name="applicationdescription"
@@ -321,7 +321,7 @@ function OnboardingApp(props) {
                                     </Form.Item>
                                 </div>
                                 <div className='col-md-6'>
-                                    <label>Status Code<span class="error">*</span></label>
+                                    <label>Status Code<span className="error">*</span></label>
                                     <Form.Item
                                         label=""
                                         name="status"
@@ -345,11 +345,11 @@ function OnboardingApp(props) {
                         </Card>
                         <Card
                             type={'inner'}
-                            title={'Contact Informtion'}
+                            title={'Contact Information'}
                             bordered={false}
                             className={'cardLayout rowmargin'}
                         >
-                            <div className='row rowmargin'>
+                            <div className='row'>
                                 <div className='col-md-6'>
                                     <label>Primary Contact Name:</label>
                                     <Form.Item
@@ -375,7 +375,7 @@ function OnboardingApp(props) {
                                     </Form.Item>
                                 </div>
                             </div>
-                            <div className='row rowmargin'>
+                            <div className='row'>
                                 <div className='col-md-6'>
                                     <label>Secondary Contact Name:</label>
                                     <Form.Item
@@ -401,7 +401,7 @@ function OnboardingApp(props) {
                                     </Form.Item>
                                 </div>
                             </div>
-                            <div className='row rowmargin'>
+                            <div className='row'>
                                 <div className='col-md-6'>
                                     <label>Primary Contact Number:</label>
                                     <Form.Item
@@ -441,7 +441,7 @@ function OnboardingApp(props) {
                                     </Form.Item>
                                 </div>
                             </div>
-                            <div className='row rowmargin'>
+                            <div className='row'>
                                 <div className='col-md-6'>
                                     <label>IT Support Email Address:</label>
                                     <Form.Item

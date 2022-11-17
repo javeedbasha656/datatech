@@ -7,6 +7,7 @@ import Approve from '../../public/images/approve.png'
 import Subscribe from '../../public/images/subscribe.png'
 import Publish from '../../public/images/publish.png'
 import Create from '../../public/images/create_topic.png'
+import Link from 'next/link';
 
 
 const mainButtonstyles = {
@@ -34,35 +35,35 @@ function QuickLinksButton() {
             onClick={false}
         >
             <Action
-                text="Subscribe Topic"
+                text={<Link href="/">Subscribe Topic</Link>}
                 onClick={() => Router.push('https://stackblitz.com/')}
                 style={tinyButtonSytles}
             >
                 <Image src={Subscribe} alt="api" width={25} height={25} />
             </Action>
             <Action
-                text="Publish Topic"
+                text={<Link href="/">Publish Topic</Link>}
                 onClick={() => Router.push('https://stackblitz.com/')}
                 style={tinyButtonSytles}
             >
                 <Image src={Publish} alt="api" width={25} height={25} />
             </Action>
             <Action
-                text="Approve Topic"
+                text={<Link href="/">Approve Topic</Link>}
                 onClick={false}
                 style={tinyButtonSytles}
             >
                 <Image src={Approve} alt="api" width={25} height={25} />
             </Action>
             <Action
-                text="Create Topic"
+                text={<Link href="/">Create Topic</Link>}
                 onClick={() => Router.push('/onboardingTopic')}
                 style={tinyButtonSytles}
             >
                 <Image src={Create} alt="api" width={25} height={25} />
             </Action>
             <Action
-                text="Create Applicaiton"
+                text={<Link href="/onboardingApplication">Create Applicaiton</Link>}
                 onClick={() => Router.push('/onboardingApplication')}
                 style={tinyButtonSytles}
             >

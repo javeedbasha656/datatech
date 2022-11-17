@@ -14,8 +14,8 @@ function Catalog() {
     const [data, setData] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
-
     const [loading, setLoading] = useState(true)
+    const [windowWidth, setwindowWidth] = useState(0)
     const searchInput = useRef(null);
 
 
@@ -160,8 +160,14 @@ function Catalog() {
 
 
     useEffect(() => {
+        if (typeof window !== undefined) {
+            console.log(window.innerWidth)
+            console.log(window.innerHeight)
+            setwindowWidth(window.innerWidth)
+        }
         getCatalogApi()
     }, [])
+
 
     const columns = [
         {
@@ -171,18 +177,22 @@ function Catalog() {
             ...getColumnSearchProps('id'),
             sorter: (a, b) => a.id.length - b.id.length,
             sortDirections: ['descend'],
+            width: 140,
+
         },
         {
             title: 'Path',
             dataIndex: 'path',
             key: 'path',
             ...getColumnSearchProps('path'),
+            width: 80,
         },
         {
             title: 'Tag',
             dataIndex: 'tag',
             key: 'tag',
             ...getColumnSearchProps('tag'),
+            width: 80,
         },
 
         {
@@ -197,7 +207,8 @@ function Catalog() {
                 else {
                     return <Tag>{v}</Tag>
                 }
-            }
+            },
+            width: 100,
         },
         {
             title: 'Container Type',
@@ -214,7 +225,8 @@ function Catalog() {
                 if (v === "HOME") {
                     return <Tag color="geekblue">HOME</Tag>
                 }
-            }
+            },
+            width: 100,
         },
         {
             title: 'CreatedAt',
@@ -222,6 +234,7 @@ function Catalog() {
             key: 'createdAt',
             sortDirections: ['ascend' | 'descend'],
             sorter: (a, b) => a.createdAt.length - b.createdAt.length,
+            width: 100,
         },
     ];
 
@@ -234,7 +247,7 @@ function Catalog() {
                         title={'Catalog Data'}
                         bordered={false}
                         className={'cardLayout'}
-                        style={{marginBottom: '10px'}}
+                        style={{ marginBottom: '10px' }}
                     >
                         <Table
                             pagination={{
@@ -245,6 +258,10 @@ function Catalog() {
                             columns={columns}
                             dataSource={getData}
                             loading={!loading ? false : true}
+                            scroll={{
+                                x: windowWidth > 1500 ? null : 1500
+                            }}
+                        // sticky
                         />
                     </Card>
                 </div>
