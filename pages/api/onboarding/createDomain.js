@@ -34,11 +34,7 @@ async function handler(req, res) {
                     if (_.isArray(createRes) && createRes.length > 0) {
                         res.status(200).json({ status: 'Success', message: 'Domain created successfully' })
                     } else {
-<<<<<<< HEAD
-                        res.status(500).json({ message: 'Failed', data: 'Failed to add domain' })
-=======
                         res.status(500).json({ status: 'Failed', message: 'Failed to add domain' })
->>>>>>> main
                     }
 
                 }
