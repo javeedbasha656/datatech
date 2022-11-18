@@ -11,7 +11,7 @@ function OnboardingApplication() {
 
     return (
         <div>
-            <div className={`${styles.containerLayout} container`}>
+            <div className={`${styles.containerLayout} container-fluid`}>
                 <div className='row'>
                     <div className='col-md-12'>
                         <div className='row'>

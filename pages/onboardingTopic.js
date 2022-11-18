@@ -4,7 +4,7 @@ import styles from '../styles/Pages.module.css'
 
 function OnBoardingTopic() {
     return (
-        <div className={`${styles.containerLayout} container`}>
+        <div className={`${styles.containerLayout} container-fluid`}>
             <div className='row'>
                 <div className='col-md-12'>
                     <h4 className={'title'}>Onboarding Topic</h4>

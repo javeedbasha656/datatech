@@ -534,7 +534,7 @@ function OnboardingTopicForm(props) {
     ];
 
     return (
-        <div className='container'>
+        <div className='container-fluid'>
             <div className='row'>
                 <div className='col-md-12'>
                     <div className='rowmargin'>
