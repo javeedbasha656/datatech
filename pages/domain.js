@@ -83,7 +83,7 @@ function Domain() {
         })
             .then((response) => response.json())
             .then((res) => {
-                console.log(res);
+                // console.log(res);
                 setData(res.data)
                 setLoading(false)
             })
@@ -123,6 +123,7 @@ function Domain() {
 
     const addDomainApi = async (value) => {
         console.log(value)
+        setbtnLoading(true)
 
         const obj = {
             domainCode: value.domaincode,
@@ -141,11 +142,18 @@ function Domain() {
         })
             .then((response) => response.json())
             .then((res) => {
-                console.log(res);
-                message.success("Domain created successfully")
-                setbtnLoading(false)
-                setLoading(false)
-                form.resetFields();
+                if (res.message === 'Failed') {
+                    console.log(res);
+                    setIsModalOpen(true)
+                    message.error(res.data)
+                } else {
+                    console.log(res);
+                    setIsModalOpen(false)
+                    message.success("Domain created successfully")
+                    setbtnLoading(false)
+                    setLoading(false)
+                    form.resetFields();
+                }
             })
             .catch((err) => {
                 console.log(err.message)
@@ -160,7 +168,7 @@ function Domain() {
         setLoading(true)
         // console.log('Success:', values, checked);
         addDomainApi(values)
-        setIsModalOpen(false)
+        setIsModalOpen(true)
         getDomainApi()
         setLoading(false)
     };
