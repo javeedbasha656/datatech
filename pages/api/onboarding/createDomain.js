@@ -8,7 +8,7 @@ async function handler(req, res) {
 
     if (req.method == 'POST') {
         let body = req.body
-        if (body.domainCode && body.domainName && body.domainDesc) {
+        if (body.domainCode && body.domainName && body.domainDesc && body.isActive && body.userId) {
             try {
                 let queries = await dbQueries()
                 let connPool = await dbConnection()
@@ -27,8 +27,7 @@ async function handler(req, res) {
                         .input('userId', body.userId)
                         .query(query);
 
-                    connPool.close()
-
+                    // connPool.close()
                     let createRes = result.rowsAffected
                     // console.log("createRes: ", result)
                     if (_.isArray(createRes) && createRes.length > 0) {
