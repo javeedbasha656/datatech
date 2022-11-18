@@ -27,8 +27,7 @@ async function handler(req, res) {
                         .input('userId', body.userId)
                         .query(query);
 
-                    connPool.close()
-
+                    // connPool.close()
                     let createRes = result.rowsAffected
                     // console.log("createRes: ", result)
                     if (_.isArray(createRes) && createRes.length > 0) {
