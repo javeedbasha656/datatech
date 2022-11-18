@@ -37,11 +37,14 @@ function Domain() {
         ...restProps
     }) => {
         const inputNode = dataIndex === 'Active_Ind_YN' ? (
-            <Switch
-                checkedChildren="Active"
-                unCheckedChildren="Inactive"
-                onChange={onStatusChange}
-            />) :
+            null
+            // <Switch
+            //     checkedChildren="Active"
+            //     unCheckedChildren="Inactive"
+            //     onChange={onStatusChange}
+            //     defaultChecked={checked}
+            // />
+            ) :
             (<Input
                 style={{ fontSize: '12px' }}
             />);
@@ -55,12 +58,8 @@ function Domain() {
                         }}
                         rules={[
                             {
-                                type: dataIndex === 'email' ? 'email' : null,
-                                message: dataIndex === 'email' ? 'The input is not valid E-mail!' : null,
-                            },
-                            {
-                                required: true,
-                                message: `Please Input ${title}!`,
+                                required: dataIndex === 'Active_Ind_YN' ? false : true,
+                                message: dataIndex === 'Active_Ind_YN' ? null : `Please Input ${title}!`
                             },
                         ]}
                     >
@@ -83,7 +82,7 @@ function Domain() {
         })
             .then((response) => response.json())
             .then((res) => {
-                // console.log(res);
+                console.log(res);
                 setData(res.data)
                 setLoading(false)
             })
@@ -97,7 +96,7 @@ function Domain() {
     //status onchange function
     const onStatusChange = (value) => {
         console.log(`switch to ${value}`);
-        const active = value === undefined ? false : value
+        const active = value === true ? "Y" : "N"
         setChecked(active)
     };
 
@@ -129,7 +128,7 @@ function Domain() {
             domainCode: value.domaincode,
             domainName: value.domainname,
             domainDesc: value.domaindesc,
-            isActive: checked === true ? 'Y' : 'N',
+            isActive: (value.status === undefined) || (value.status === false) ? 'N' : 'Y',
             userId: "user@wbg.org"
         }
 
@@ -152,7 +151,7 @@ function Domain() {
                     setIsModalOpen(false)
                     message.success("Domain created successfully")
                     setbtnLoading(false)
-                    setLoading(false)
+                    getDomainApi()
                     form.resetFields();
                 }
             })
@@ -170,9 +169,8 @@ function Domain() {
         // console.log('Success:', values, checked);
         addDomainApi(values)
         setTimeout(() => {
-            getDomainApi()
             setLoading(false)
-        }, 1000)
+        }, 2000)
     };
 
     //function to fetch error while submitting create domain forma
