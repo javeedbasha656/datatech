@@ -5,14 +5,14 @@ import { Button } from 'antd';
 import Router from 'next/router'
 
 function Notfound() {
-
     return (
         <div className={`${styles.containerLayout1} container-fluid`}>
             <div className="row">
                 <div className='col-md-12'>
                     <div className='text-center'
                         style={{ marginTop: '30px' }}>
-                        <Image src={PageNotFound}
+                        <Image
+                            src={PageNotFound}
                             alt="Empty home"
                             width={300}
                             height={300}

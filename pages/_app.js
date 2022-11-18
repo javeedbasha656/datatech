@@ -63,7 +63,7 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
     // console.log = function(){};
     setCurrent(router.pathname)
-  })
+  }, [router.pathname])
 
   return (
     <ThemeContext.Provider value={{ theme, themeToggle }}>
