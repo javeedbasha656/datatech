@@ -15,7 +15,7 @@ async function handler(req, res) {
                 let domainData = await connPool.request().input('domainCode', body.domainCode).query(queries.getDomainByCode);
                 domainData = domainData ? domainData.recordset : ''
                 if (domainData && domainData.length > 0) {
-                    res.status(400).json({ status: 'Failed', message: 'Domain already exists' })
+                    res.status(500).json({ status: 'Failed', message: 'Domain already exists' })
                 }
                 else {
                     let query = queries.createDomain
@@ -44,11 +44,11 @@ async function handler(req, res) {
                 res.status(500).json({ status: 'Failed', message: 'Something went wrong...please try again later' })
             }
         } else {
-            res.status(400).json({ status: 'Failed', message: 'Bad request' })
+            res.status(500).json({ status: 'Failed', message: 'Bad request' })
         }
 
     } else {
-        res.status(400).json({ status: 'Failed', message: 'Only POST request allowed' })
+        res.status(500).json({ status: 'Failed', message: 'Only POST request allowed' })
     }
 
 }

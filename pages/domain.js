@@ -142,10 +142,11 @@ function Domain() {
         })
             .then((response) => response.json())
             .then((res) => {
-                if (res.message === 'Failed') {
+                if (res.status === 'Failed') {
                     console.log(res);
                     setIsModalOpen(true)
-                    message.error(res.data)
+                    setbtnLoading(false)
+                    message.error(res.message)
                 } else {
                     console.log(res);
                     setIsModalOpen(false)
@@ -168,9 +169,10 @@ function Domain() {
         setLoading(true)
         // console.log('Success:', values, checked);
         addDomainApi(values)
-        setIsModalOpen(true)
-        getDomainApi()
-        setLoading(false)
+        setTimeout(() => {
+            getDomainApi()
+            setLoading(false)
+        }, 1000)
     };
 
     //function to fetch error while submitting create domain forma
