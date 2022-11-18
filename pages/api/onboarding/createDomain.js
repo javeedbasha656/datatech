@@ -15,7 +15,7 @@ async function handler(req, res) {
                 let domainData = await connPool.request().input('domainCode', body.domainCode).query(queries.getDomainByCode);
                 domainData = domainData ? domainData.recordset : ''
                 if (domainData && domainData.length > 0) {
-                    res.status(400).json({ message: 'Failed', data: 'Domain already exists' })
+                    res.status(400).json({ status: 'Failed', message: 'Domain already exists' })
                 }
                 else {
                     let query = queries.createDomain
@@ -30,25 +30,25 @@ async function handler(req, res) {
                     connPool.close()
 
                     let createRes = result.rowsAffected
-                    console.log("createRes: ", result)
+                    // console.log("createRes: ", result)
                     if (_.isArray(createRes) && createRes.length > 0) {
-                        res.status(200).json({ message: 'Success', data: 'Domain created successfully' })
+                        res.status(200).json({ status: 'Success', message: 'Domain created successfully' })
                     } else {
-                        res.status(200).json({ message: 'Failed', data: 'Failed to add domain' })
+                        res.status(500).json({ status: 'Failed', message: 'Failed to add domain' })
                     }
 
                 }
 
             } catch (err) {
                 console.log("Err: ", err)
-                res.status(500).json({ message: 'Something went wrong...please try again later' })
+                res.status(500).json({ status: 'Failed', message: 'Something went wrong...please try again later' })
             }
         } else {
-            res.status(500).json({ message: 'Invalid domain passed' })
+            res.status(400).json({ status: 'Failed', message: 'Bad request' })
         }
 
     } else {
-        res.status(500).json({ message: 'Only POST request allowed' })
+        res.status(400).json({ status: 'Failed', message: 'Only POST request allowed' })
     }
 
 }
