@@ -11,26 +11,34 @@ async function handler(req, res) {
         if (body.domainCode && body.domainName && body.domainDesc) {
             try {
                 let queries = await dbQueries()
-                let query = queries.createDomain
-
                 let connPool = await dbConnection()
-                let result = await connPool.request()
-                    .input('domainCode', body.domainCode)
-                    .input('domainName', body.domainName)
-                    .input('domainDesc', body.domainDesc)
-                    .input('isActive', body.isActive)
-                    .input('userId', body.userId)
-                    .query(query);
-
-                connPool.close()
-
-                let createRes = result.rowsAffected
-                console.log("createRes: ", result)
-                if (_.isArray(createRes) && createRes.length > 0) {
-                    res.status(200).json({ message: 'Success', data: 'Domain created successfully' })
-                } else {
-                    res.status(200).json({ message: 'Failed', data: 'Failed to add domain' })
+                let domainData = await connPool.request().input('domainCode', body.domainCode).query(queries.getDomainByCode);
+                domainData = domainData ? domainData.recordset : ''
+                if (domainData && domainData.length > 0) {
+                    res.status(400).json({ message: 'Failed', data: 'Domain already exists' })
                 }
+                else {
+                    let query = queries.createDomain
+                    let result = await connPool.request()
+                        .input('domainCode', body.domainCode)
+                        .input('domainName', body.domainName)
+                        .input('domainDesc', body.domainDesc)
+                        .input('isActive', body.isActive)
+                        .input('userId', body.userId)
+                        .query(query);
+
+                    connPool.close()
+
+                    let createRes = result.rowsAffected
+                    console.log("createRes: ", result)
+                    if (_.isArray(createRes) && createRes.length > 0) {
+                        res.status(200).json({ message: 'Success', data: 'Domain created successfully' })
+                    } else {
+                        res.status(200).json({ message: 'Failed', data: 'Failed to add domain' })
+                    }
+
+                }
+
             } catch (err) {
                 console.log("Err: ", err)
                 res.status(500).json({ message: 'Something went wrong...please try again later' })
