@@ -8,7 +8,7 @@ import {
     CloseSquareOutlined, SearchOutlined
 } from '@ant-design/icons';
 import styles from '../styles/Pages.module.css'
-import { DomainAPIURL } from '../endPointsURL'
+import { DomainAPIURL, AddDomainAPIURL } from '../endPointsURL'
 import Highlighter from 'react-highlight-words';
 
 
@@ -36,7 +36,7 @@ function Domain() {
         children,
         ...restProps
     }) => {
-        const inputNode = dataIndex === 'Info_Domain_Long_Name' ? (
+        const inputNode = dataIndex === 'Active_Ind_YN' ? (
             <Switch
                 checkedChildren="Active"
                 unCheckedChildren="Inactive"
@@ -83,7 +83,7 @@ function Domain() {
         })
             .then((response) => response.json())
             .then((res) => {
-                // console.log(data);
+                console.log(res);
                 setData(res.data)
                 setLoading(false)
             })
@@ -97,7 +97,8 @@ function Domain() {
     //status onchange function
     const onStatusChange = (value) => {
         console.log(`switch to ${value}`);
-        setChecked(value)
+        const active = value === undefined ? false : value
+        setChecked(active)
     };
 
     //function to open the modal
@@ -120,14 +121,48 @@ function Domain() {
         }, 1000)
     };
 
+    const addDomainApi = async (value) => {
+        console.log(value)
+
+        const obj = {
+            domainCode: value.domaincode,
+            domainName: value.domainname,
+            domainDesc: value.domaindesc,
+            isActive: checked === true ? 'Y' : 'N',
+            userId: "user@wbg.org"
+        }
+
+        await fetch(AddDomainAPIURL, {
+            method: 'POST',
+            body: JSON.stringify(obj),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((res) => {
+                console.log(res);
+                message.success("Domain created successfully")
+                setbtnLoading(false)
+                setLoading(false)
+                form.resetFields();
+            })
+            .catch((err) => {
+                console.log(err.message)
+                setbtnLoading(false)
+                setLoading(false)
+                message.error(err.message)
+            });
+    }
+
     //modal create domain submit function 
     const onFinish = (values) => {
-        console.log('Success:', values, checked);
+        setLoading(true)
+        // console.log('Success:', values, checked);
+        addDomainApi(values)
         setIsModalOpen(false)
-        setbtnLoading(false)
-        setTimeout(() => {
-            setLoading(false)
-        }, 1000)
+        getDomainApi()
+        setLoading(false)
     };
 
     //function to fetch error while submitting create domain forma
@@ -317,6 +352,13 @@ function Domain() {
             title: 'Domain Description',
             dataIndex: 'Info_Domain_Desc',
             ...getColumnSearchProps('Info_Domain_Desc'),
+            editable: true,
+        },
+        {
+            key: 'Active_Ind_YN',
+            title: 'Status',
+            dataIndex: 'Active_Ind_YN',
+            ...getColumnSearchProps('Active_Ind_YN'),
             editable: true,
         },
         {
