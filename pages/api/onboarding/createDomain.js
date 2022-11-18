@@ -8,7 +8,7 @@ async function handler(req, res) {
 
     if (req.method == 'POST') {
         let body = req.body
-        if (body.domainCode && body.domainName && body.domainDesc) {
+        if (body.domainCode && body.domainName && body.domainDesc && body.isActive && body.userId) {
             try {
                 let queries = await dbQueries()
                 let connPool = await dbConnection()
