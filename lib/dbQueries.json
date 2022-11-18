@@ -1,7 +1,8 @@
 {
-    "getDomain": "select Info_Domain_Code,Info_Domain_Long_Name,Info_Domain_Desc from SourceSetup.InfoDomain",
-    "getDomainByCode": "select Info_Domain_Code,Info_Domain_Long_Name,Info_Domain_Desc from SourceSetup.InfoDomain where Info_Domain_Code = @domainCode",
-    "getSubDomain": "select Info_SubDomain_Code,Info_SubDomain_Long_Name from SourceSetup.InfoSubDomain where Info_Domain_Code = @domain",
+    "getDomain": "select Info_Domain_Code,Info_Domain_Long_Name,Info_Domain_Desc,Active_Ind_YN from DataEngineering.InfoDomain_Tbl",
+    "getDomainByCode": "select Info_Domain_Code,Info_Domain_Long_Name,Info_Domain_Desc,Active_Ind_YN from DataEngineering.InfoDomain_Tbl where Info_Domain_Code = @domainCode",
+    "createDomain": "insert into DataEngineering.InfoDomain_Tbl (Info_Domain_Code,Info_Domain_Long_Name,Info_Domain_Desc,Active_Ind_YN,UpdatedBy_UserId) VALUES (@domainCode,@domainName,@domainDesc,@isActive,@userId)",
+    "getSubDomain": "select Info_SubDomain_Code,Info_SubDomain_Long_Name,Info_SubDomain_Desc,Active_Ind_YN,UpdatedBy_UserId from DataEngineering.InfoSubDomain_Tbl where Info_Domain_Code = @domain",
     "getAppList": "select * from SourceSetup.DataSourceAppmaster",
-    "getAppCodes":"select DataSource_App_Code , DataSource_App_Abb_Name,DataSource_App_Desc from SourceSetup.DataSourceAppmaster where Info_Domain_Code= @domain and Info_SubDomain_Code = @subDomain"
+    "getAppCodes": "select DataSource_App_Code , DataSource_App_Abb_Name,DataSource_App_Desc from SourceSetup.DataSourceAppmaster where Info_Domain_Code= @domain and Info_SubDomain_Code = @subDomain"
 }
