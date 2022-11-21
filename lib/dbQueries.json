@@ -1,5 +1,6 @@
 {
-    "getDomain": "select Domain_Code,Domain_Long_Name, Domain_Desc,Active_Ind_YN,Creation_TimeStamp from DataEngineering.DomainMstr_Tbl",
+    "getDomainMaster": "select Domain_Code,Domain_Long_Name, Domain_Desc,Active_Ind_YN,Creation_TimeStamp from DataEngineering.DomainMstr_Tbl",
+    "getDomain": "select Domain_Code,Domain_Long_Name, Domain_Desc from DataEngineering.DomainMstr_Tbl where Active_Ind_YN=@isActive",
     "getDomainByCode": "select Domain_Code,Domain_Long_Name,Domain_Desc,Active_Ind_YN from DataEngineering.DomainMstr_Tbl where Domain_Code = @domainCode",
     "createDomain": "insert into DataEngineering.DomainMstr_Tbl (Domain_Code,Domain_Long_Name,Domain_Desc,Active_Ind_YN,UpdatedBy_UserId) VALUES (@domainCode,@domainName,@domainDesc,@isActive,@userId)",
     "updateDomain": "update DataEngineering.DomainMstr_Tbl set Domain_Long_Name=@domainName,Domain_Desc=@domainDesc,Active_Ind_YN=@isActive where Domain_Code=@domainCode",
