@@ -20,8 +20,12 @@ async function handler(req, res) {
                 query = queryData.getDomainByCode
                 result = await connPool.request().input('domainCode', domainCode).query(query);
             }
-            else {
+            else if (req.query.isActive) {
                 query = queryData.getDomain
+                result = await connPool.request().input('isActive', 'Y').query(query);
+            }
+            else {
+                query = queryData.getDomainMaster
                 result = await connPool.request().query(query);
             }
             connPool.close()

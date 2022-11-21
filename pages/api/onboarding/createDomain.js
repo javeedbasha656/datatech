@@ -23,7 +23,7 @@ async function handler(req, res) {
                         .input('domainCode', body.domainCode)
                         .input('domainName', body.domainName)
                         .input('domainDesc', body.domainDesc)
-                        .input('isActive', body.isActive)
+                        .input('isActive', 'Y')
                         .input('userId', body.userId)
                         .query(query);
 
