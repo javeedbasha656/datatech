@@ -4,7 +4,7 @@
     "getDomainByCode": "select Domain_Code,Domain_Long_Name,Domain_Desc,Active_Ind_YN from DataEngineering.DomainMstr_Tbl where Domain_Code = @domainCode",
     "createDomain": "insert into DataEngineering.DomainMstr_Tbl (Domain_Code,Domain_Long_Name,Domain_Desc,Active_Ind_YN,UpdatedBy_UserId) VALUES (@domainCode,@domainName,@domainDesc,@isActive,@userId)",
     "updateDomain": "update DataEngineering.DomainMstr_Tbl set Domain_Long_Name=@domainName,Domain_Desc=@domainDesc,Active_Ind_YN=@isActive where Domain_Code=@domainCode",
-    "getSubDomain": "select Info_SubDomain_Code,Info_SubDomain_Long_Name,Info_SubDomain_Desc,Active_Ind_YN,UpdatedBy_UserId from DataEngineering.InfoSubDomain_Tbl where Info_Domain_Code = @domain",
+    "getSubDomain": "select SubDomain_Code,SubDomain_Long_Name,SubDomain_Desc,Active_Ind_YN,UpdatedBy_UserId from DataEngineering.SubDomainMstr_Tbl where Domain_Code = @domain",
     "getAppList": "select * from SourceSetup.DataSourceAppmaster",
-    "getAppCodes": "select DataSource_App_Code , DataSource_App_Abb_Name,DataSource_App_Desc from SourceSetup.DataSourceAppmaster where Info_Domain_Code= @domain and Info_SubDomain_Code = @subDomain"
+    "getAppCodes": "select DataSource_App_Code , DataSource_App_Abb_Name,DataSource_App_Desc from SourceSetup.DataSourceAppmaster where Domain_Code= @domain and SubDomain_Code = @subDomain"
 }

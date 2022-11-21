@@ -2,7 +2,6 @@
 import _ from 'lodash'
 import { dbConnection } from '../../../services/db_connections'
 import { dbQueries } from '../../../services/common'
-import moment from 'moment'
 
 async function handler(req, res) {
 
