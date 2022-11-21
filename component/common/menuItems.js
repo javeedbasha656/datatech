@@ -49,12 +49,12 @@ export const MenuItems = [
         <Image src={Publication} alt="Sub Domain"
             width={15} height={15} />
     ),
-    getItem(
-        <Link href="/subdomain">Sub Domain</Link>,
-        "/subdomain",
-        <Image src={Publication} alt="Domain"
-            width={15} height={15} />
-    ),
+    // getItem(
+    //     <Link href="/subdomain">Sub Domain</Link>,
+    //     "/subdomain",
+    //     <Image src={Publication} alt="Domain"
+    //         width={15} height={15} />
+    // ),
     getItem(
         <Link href="/catalog">Dremio Catalog</Link>,
         "/catalog",

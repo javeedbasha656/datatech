@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import styles from '../styles/Pages.module.css'
-import PageNotFound from '../public/images/Notfound.svg'
+import PageNotFound from '../public/images/notfound.svg'
 import { Button } from 'antd';
 import Router from 'next/router'
 
