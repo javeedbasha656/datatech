@@ -6,3 +6,4 @@ export const DremioCatalogAPI = 'https://findata-dev.worldbank.org/api/v3/catalo
 export const getDremioAPIURL = '/api/dremio/getCatalog'
 export const AppCodeAPIURL = '/api/onboarding/getAppCode'
 export const AddDomainAPIURL = '/api/onboarding/createDomain'
+export const EditDomainAPIURL = 'api/onboarding/updateDomain'

@@ -153,8 +153,8 @@ a {
 }
 
 .ant-switch-checked {
-  background-color: var(--primaryColor) !important;
-  border: 1px solid var(--primaryColor) !important;
+  background-color: #069d12 !important;
+  border: 1px solid #069d12 !important;
 }
 
 .ant-switch-handle::before {

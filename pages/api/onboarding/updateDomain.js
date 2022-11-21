@@ -21,7 +21,7 @@ async function handler(req, res) {
 
                 connPool.close()
                 let updateRes = result.rowsAffected
-                // console.log("updateRes: ", result)
+                console.log("updateRes: ", result)
                 if (_.isArray(updateRes) && updateRes.length > 0) {
                     res.status(200).json({ status: 'Success', message: 'Domain updated successfully' })
                 } else {
