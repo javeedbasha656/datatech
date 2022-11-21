@@ -1,20 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
     Button, Form, Input, Card, Modal, Switch,
-    Popconfirm, Table, message, Tooltip, Space
+    Popconfirm, Table, message, Tooltip, Space, Tag
 } from 'antd';
 import {
     EditOutlined, SaveOutlined,
     CloseSquareOutlined, SearchOutlined
 } from '@ant-design/icons';
 import styles from '../styles/Pages.module.css'
-import { DomainAPIURL } from '../endPointsURL'
+import {
+    DomainAPIURL, AddDomainAPIURL,
+    EditDomainAPIURL
+} from '../endPointsURL'
 import Highlighter from 'react-highlight-words';
 
 
 function Domain() {
 
     const [data, setData] = useState([]);
+    const [olddata, setoldData] = useState([])
     const [loading, setLoading] = useState(true)
     const [editingKey, setEditingKey] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,15 +40,10 @@ function Domain() {
         children,
         ...restProps
     }) => {
-        const inputNode = dataIndex === 'Info_Domain_Long_Name' ? (
-            <Switch
-                checkedChildren="Active"
-                unCheckedChildren="Inactive"
-                onChange={onStatusChange}
-            />) :
-            (<Input
+        const inputNode = dataIndex === 'Active_Ind_YN' ? null :
+            <Input
                 style={{ fontSize: '12px' }}
-            />);
+            />
         return (
             <td {...restProps}>
                 {editing ? (
@@ -55,12 +54,8 @@ function Domain() {
                         }}
                         rules={[
                             {
-                                type: dataIndex === 'email' ? 'email' : null,
-                                message: dataIndex === 'email' ? 'The input is not valid E-mail!' : null,
-                            },
-                            {
-                                required: true,
-                                message: `Please Input ${title}!`,
+                                required: dataIndex === 'Active_Ind_YN' ? false : true,
+                                message: dataIndex === 'Active_Ind_YN' ? null : `Please Input ${title}!`
                             },
                         ]}
                     >
@@ -83,7 +78,7 @@ function Domain() {
         })
             .then((response) => response.json())
             .then((res) => {
-                // console.log(data);
+                console.log(res);
                 setData(res.data)
                 setLoading(false)
             })
@@ -97,6 +92,7 @@ function Domain() {
     //status onchange function
     const onStatusChange = (value) => {
         console.log(`switch to ${value}`);
+
         setChecked(value)
     };
 
@@ -120,14 +116,57 @@ function Domain() {
         }, 1000)
     };
 
+    const addDomainApi = async (value) => {
+        console.log(value)
+        setbtnLoading(true)
+
+        const obj = {
+            domainCode: value.domaincode,
+            domainName: value.domainname,
+            domainDesc: value.domaindesc,
+            isActive: 'Y',
+            userId: "user@wbg.org"
+        }
+
+        await fetch(AddDomainAPIURL, {
+            method: 'POST',
+            body: JSON.stringify(obj),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.status === 'Failed') {
+                    console.log(res);
+                    setIsModalOpen(true)
+                    setbtnLoading(false)
+                    message.error(res.message)
+                } else {
+                    console.log(res);
+                    setIsModalOpen(false)
+                    message.success("Domain created successfully")
+                    setbtnLoading(false)
+                    getDomainApi()
+                    form.resetFields();
+                }
+            })
+            .catch((err) => {
+                console.log(err.message)
+                setbtnLoading(false)
+                setLoading(false)
+                message.error(err.message)
+            });
+    }
+
     //modal create domain submit function 
     const onFinish = (values) => {
-        console.log('Success:', values, checked);
-        setIsModalOpen(false)
-        setbtnLoading(false)
+        setLoading(true)
+        // console.log('Success:', values, checked);
+        addDomainApi(values)
         setTimeout(() => {
             setLoading(false)
-        }, 1000)
+        }, 2000)
     };
 
     //function to fetch error while submitting create domain forma
@@ -135,20 +174,23 @@ function Domain() {
         console.log('Failed:', errorInfo);
     };
 
+
     //toggle function for editing the table
-    const isEditing = (record) => record.Info_Domain_Code === editingKey;
+    const isEditing = (record) => record.Domain_Code === editingKey;
     // console.log(isEditing)
+
 
     //domain table edit function
     const edit = (record, rec) => {
         console.log('old Data:', record, 'id:', rec)
+        setoldData(record)
         form.setFieldsValue({
-            Info_Domain_Code: '',
-            Info_Domain_Long_Name: '',
-            Info_Domain_Desc: '',
+            Domain_Code: '',
+            Domain_Long_Name: '',
+            Domain_Desc: '',
             ...record,
         });
-        setEditingKey(record.Info_Domain_Code);
+        setEditingKey(record.Domain_Code);
     };
 
     //function to cancel the edit 
@@ -162,7 +204,7 @@ function Domain() {
         try {
             const row = await form.validateFields();
             const newData = [...data];
-            const index = newData.findIndex((item) => id === item.Info_Domain_Code);
+            const index = newData.findIndex((item) => id === item.Domain_Code);
             if (index > -1) {
                 const item = newData[index];
                 newData.splice(index, 1, {
@@ -171,12 +213,13 @@ function Domain() {
                 });
                 const UpdatedData = newData[index]
                 // console.log('Updated Data:', UpdatedData)
-                onDomain(UpdatedData)
                 setLoading(true)
-                message.success(`Domain Code: ${id} has been successfully updates`)
+                updateDomainApi(UpdatedData)
+                // message.success(`Domain Code: ${id} has been successfully updates`)
                 setData(newData);
+                getDomainApi()
                 setEditingKey('');
-                setLoading(false)
+                setLoading(true)
             } else {
                 newData.push(row);
                 setData(newData);
@@ -299,24 +342,24 @@ function Domain() {
     //domain column list
     const columns = [
         {
-            key: 'Info_Domain_Code',
+            key: 'Domain_Code',
             title: 'Domain Code',
-            dataIndex: 'Info_Domain_Code',
-            ...getColumnSearchProps('Info_Domain_Code'),
-            editable: true,
+            dataIndex: 'Domain_Code',
+            ...getColumnSearchProps('Domain_Code'),
+            editable: false,
         },
         {
-            key: 'Info_Domain_Long_Name',
+            key: 'Domain_Long_Name',
             title: 'Domain Name',
-            dataIndex: 'Info_Domain_Long_Name',
-            ...getColumnSearchProps('Info_Domain_Long_Name'),
+            dataIndex: 'Domain_Long_Name',
+            ...getColumnSearchProps('Domain_Long_Name'),
             editable: true,
         },
         {
-            key: 'Info_Domain_Desc',
+            key: 'Domain_Desc',
             title: 'Domain Description',
-            dataIndex: 'Info_Domain_Desc',
-            ...getColumnSearchProps('Info_Domain_Desc'),
+            dataIndex: 'Domain_Desc',
+            ...getColumnSearchProps('Domain_Desc'),
             editable: true,
         },
         {
@@ -328,7 +371,7 @@ function Domain() {
                     <span>
                         <Tooltip placement="top" title="Save">
                             <Button
-                                onClick={() => save(record.Info_Domain_Code)}
+                                onClick={() => save(record.Domain_Code)}
                                 style={{
                                     marginRight: 8,
                                 }}
@@ -360,12 +403,42 @@ function Domain() {
                         <Button
                             disabled={editingKey !== ''}
                             className={`${styles.backBtn}`}
-                            onClick={() => edit(record, record.Info_Domain_Code)}>
+                            onClick={() => edit(record, record.Domain_Code)}>
                             <EditOutlined />
                         </Button>
                     </Tooltip>
                 );
             },
+        },
+        {
+            key: 'Active_Ind_YN',
+            title: 'Change Status',
+            dataIndex: 'Active_Ind_YN',
+            editable: true,
+            render: function (status, record, index) {
+                // console.log(v, record)
+                const onToggle = (check) => {
+                    // console.log(checked)
+                    status = check;
+                    setChecked(status)
+                    const text = status === true ? 'Active' : 'Inactive'
+                    updateDomainStatusApi(record, status)
+                    message.success(`Domain Code: ${record.Domain_Code} changed to ${text}`)
+                };
+
+                return (
+                    <Tooltip
+                        title={status === 'Y' ? "Active" : "Inactive"}
+                        placement="top">
+                        <Switch
+                            checkedChildren={'Active'}
+                            unCheckedChildren={'Inactive'}
+                            onChange={onToggle}
+                            checked={status === 'Y' ? true : false}
+                        />
+                    </Tooltip>
+                )
+            }
         },
     ];
 
@@ -387,8 +460,91 @@ function Domain() {
     });
 
     //domain update api function call
-    const onDomain = (values) => {
-        console.log('Updated Data:', values);
+    const updateDomainApi = async (values) => {
+        setLoading(true)
+        console.log('Updated Data:', values, status);
+
+        const obj = {
+            domainCode: values.Domain_Code,
+            domainName: values.Domain_Long_Name,
+            domainDesc: values.Domain_Desc,
+            isActive: checked === false ? 'N' : 'Y',
+            userId: "user@wbg.org"
+        }
+
+        await fetch(EditDomainAPIURL, {
+            method: 'POST',
+            body: JSON.stringify(obj),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.status === 'Failed') {
+                    console.log(res);
+                    setLoading(false)
+                    message.error(res.message)
+                } else {
+                    console.log(res);
+                    message.success("Domain Edited successfully")
+                    getDomainApi()
+                    setTimeout(() => {
+                        setLoading(false)
+                    }, 1500)
+                    form.resetFields();
+                }
+            })
+            .catch((err) => {
+                console.log(err.message)
+                setbtnLoading(false)
+                setLoading(false)
+                message.error(err.message)
+            });
+    };
+
+    //domain status update api function call
+    const updateDomainStatusApi = async (values, status) => {
+        setLoading(true)
+        console.log('Updated Data:', values, status);
+
+        const obj = {
+            domainCode: values.Domain_Code,
+            domainName: values.Domain_Long_Name,
+            domainDesc: values.Domain_Desc,
+            isActive: status === false ? 'N' : 'Y',
+            userId: "user@wbg.org"
+        }
+
+        await fetch(EditDomainAPIURL, {
+            method: 'POST',
+            body: JSON.stringify(obj),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((res) => {
+                if (res.status === 'Failed') {
+                    console.log(res);
+                    setLoading(false)
+                    message.error(res.message)
+                } else {
+                    console.log(res);
+                    message.success("Domain Edited successfully")
+                    getDomainApi()
+                    setTimeout(() => {
+                        setLoading(false)
+                    }, 1500)
+                    form.resetFields();
+                }
+            })
+            .catch((err) => {
+                console.log(err.message)
+                setbtnLoading(false)
+                setLoading(false)
+                message.error(err.message)
+            });
     };
 
     useEffect(() => {
@@ -432,7 +588,7 @@ function Domain() {
                                 // bordered
                                 dataSource={data}
                                 columns={mergedColumns}
-                                loading={!loading ? false : true}
+                                loading={loading}
                                 scroll={{
                                     x: windowWidth > 1000 ? null : 1500
                                 }}
@@ -509,21 +665,6 @@ function Domain() {
                                             ]}
                                         >
                                             <Input />
-                                        </Form.Item>
-                                    </div>
-                                </div>
-                                <div className='row'>
-                                    <div className='col-md-12'>
-                                        <label>Status</label>
-                                        <Form.Item
-                                            label={""}
-                                            name="status"
-                                        >
-                                            <Switch
-                                                checkedChildren="Active"
-                                                unCheckedChildren="Inactive"
-                                                onChange={onStatusChange}
-                                            />
                                         </Form.Item>
                                     </div>
                                 </div>
