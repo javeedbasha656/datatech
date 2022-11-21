@@ -18,6 +18,7 @@ async function handler(req, res) {
                 let connPool = await dbConnection()
                 let result = await connPool.request()
                     .input('domain', domain)
+                    .input('isActive', 'Y')
                     .query(query);
 
                 connPool.close()

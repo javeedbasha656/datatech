@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
     Button, Form, Input, Card, Modal, Switch,
-    Popconfirm, Table, message, Tooltip, Space
+    Popconfirm, Table, message, Tooltip, Space, Tag
 } from 'antd';
 import {
     EditOutlined, SaveOutlined,
@@ -13,6 +13,7 @@ import {
     EditDomainAPIURL
 } from '../endPointsURL'
 import Highlighter from 'react-highlight-words';
+
 
 
 function Domain() {
@@ -81,9 +82,9 @@ function Domain() {
             .then((res) => {
                 // console.log(res);
                 const resdata = res.data
-                const sortedData = resdata.sort((a, b) => new Date(b.Creation_TimeStamp) - new Date(a.Creation_TimeStamp))
-                console.log(sortedData)
-                setData(sortedData)
+                // const sortedData = resdata.sort((a, b) => new Date(b.Creation_TimeStamp) - new Date(a.Creation_TimeStamp))
+                // console.log(sortedData)
+                setData(resdata)
                 setLoading(false)
             })
             .catch((err) => {
@@ -613,14 +614,14 @@ function Domain() {
                             >
                                 <div className='row'>
                                     <div className='col-md-12'>
-                                        <label>Domain Code<span className="error">*</span></label>
+                                        <label>Subdomain Code<span className="error">*</span></label>
                                         <Form.Item
                                             label={""}
-                                            name="domaincode"
+                                            name="subdomaincode"
                                             rules={[
                                                 {
                                                     required: true,
-                                                    message: 'Please input your Domain Code!',
+                                                    message: 'Please input your Sub Domain Code!',
                                                 },
                                             ]}
                                         >
@@ -630,14 +631,14 @@ function Domain() {
                                 </div>
                                 <div className='row'>
                                     <div className='col-md-12'>
-                                        <label>Domain Name<span className="error">*</span></label>
+                                        <label>Subdomain Name<span className="error">*</span></label>
                                         <Form.Item
                                             label={""}
-                                            name="domainname"
+                                            name="subdomainname"
                                             rules={[
                                                 {
                                                     required: true,
-                                                    message: 'Please input your Domain Name!',
+                                                    message: 'Please input your Sub Domain Name!',
                                                 },
                                             ]}
                                         >
@@ -647,14 +648,14 @@ function Domain() {
                                 </div>
                                 <div className='row'>
                                     <div className='col-md-12'>
-                                        <label>Domain Description<span className="error">*</span></label>
+                                        <label>Subdomain Description<span className="error">*</span></label>
                                         <Form.Item
                                             label={""}
-                                            name="domaindesc"
+                                            name="subdomaindesc"
                                             rules={[
                                                 {
                                                     required: true,
-                                                    message: 'Please input your Domain Description!',
+                                                    message: 'Please input your Sub Domain Description!',
                                                 },
                                             ]}
                                         >

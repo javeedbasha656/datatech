@@ -29,7 +29,7 @@ function OnboardingApp(props) {
         })
             .then((response) => response.json())
             .then((data) => {
-                // console.log(data);
+                console.log(data);
                 setDomain(data)
                 setLoading(false)
             })
@@ -229,8 +229,8 @@ function OnboardingApp(props) {
                                         >
                                             {domain?.data?.map((item, index) => {
                                                 return (
-                                                    <Option key={index} value={item.Info_Domain_Code}>
-                                                        {item.Info_Domain_Long_Name}</Option>
+                                                    <Option key={index} value={item.Domain_Code}>
+                                                        {item.Domain_Long_Name}</Option>
                                                 )
                                             })}
                                         </Select>
@@ -264,8 +264,8 @@ function OnboardingApp(props) {
                                             {subdomain?.map((sub, index) => {
                                                 return (
                                                     <Option key={index}
-                                                        value={sub.Info_SubDomain_Code}>
-                                                        {sub.Info_SubDomain_Long_Name}</Option>
+                                                        value={sub.SubDomain_Code}>
+                                                        {sub.SubDomain_Long_Name}</Option>
                                                 )
                                             })}
                                         </Select>

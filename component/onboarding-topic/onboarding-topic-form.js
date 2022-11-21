@@ -188,7 +188,6 @@ function OnboardingTopicForm(props) {
         console.log("Submitted values:", value)
     }
 
-
     const {
         form,
         current,
@@ -252,8 +251,8 @@ function OnboardingTopicForm(props) {
                         >
                             {domain?.data?.map((item, index) => {
                                 return (
-                                    <Option key={index} value={item.Info_Domain_Code}>
-                                        {item.Info_Domain_Long_Name}</Option>
+                                    <Option key={index} value={item.Domain_Code}>
+                                        {item.Domain_Long_Name}</Option>
                                 )
                             })}
                         </Select>

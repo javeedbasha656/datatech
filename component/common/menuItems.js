@@ -44,9 +44,15 @@ export const MenuItems = [
         ]
     ),
     getItem(
-        <Link href="/domain">Domain</Link>,
-        "/domain",
+        <Link href="/subdomain">Domain</Link>,
+        "/subdomain",
         <Image src={Publication} alt="Domain"
+            width={15} height={15} />
+    ),
+    getItem(
+        <Link href="/domain">Sub Domain</Link>,
+        "/domain",
+        <Image src={Publication} alt="Sub Domain"
             width={15} height={15} />
     ),
     getItem(
