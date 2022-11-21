@@ -40,7 +40,7 @@ function OnboardingTopicForm(props) {
 
     //function get domain list from api
     const getDomainApi = async () => {
-        await fetch(DomainAPIURL, {
+        await fetch(`${DomainAPIURL}?isActive=true`, {
             method: 'GET',
             headers: {
                 "Content-Type": "application/json",
