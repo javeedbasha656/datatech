@@ -1,0 +1,36 @@
+trigger:
+  - dev
+pool: 
+  name: 'ITSFI-TR-DataTech-App'
+steps: 
+  - 
+    displayName: "Install Node.js"
+    inputs: 
+      versionSpec: 16.x
+    task: NodeTool@0
+  - 
+    displayName: "npm install"
+    script: "npm install\n"
+  - 
+    displayName: "npm build"
+    script: "npm run build\n"
+  - 
+    displayName: "Copy npm package"
+    inputs: 
+      contents: "*.tgz"
+      sourceFolder: $(Build.SourcesDirectory)
+      targetFolder: $(Build.ArtifactStagingDirectory)/npm
+    task: CopyFiles@2
+  - 
+    displayName: "Copy package.json"
+    inputs: 
+      contents: package.json
+      sourceFolder: $(Build.SourcesDirectory)
+      targetFolder: $(Build.ArtifactStagingDirectory)/npm
+    task: CopyFiles@2
+  - 
+    displayName: "Publish npm artifact"
+    inputs: 
+      artifactName: npm
+      targetPath: $(Build.ArtifactStagingDirectory)/npm
+    task: PublishPipelineArtifact@1

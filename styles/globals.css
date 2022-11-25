@@ -652,3 +652,34 @@ a {
   border: 1px solid #fffefe !important;
   box-shadow: 2px 2px 3px #33333361;
 }
+
+td a {
+  color: #0071bc !important;
+}
+
+.ant-drawer-header {
+  display: flex;
+  flex: 0 1;
+  align-items: center;
+  padding: 8px 8px !important;;
+  font-size: 14px !important;;
+  line-height: 2px !important; 
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.ant-drawer-title {
+  flex: 1 1;
+  margin: 0;
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 600 !important;;
+  font-size: 14px !important;
+  line-height: 18px !important;;
+}
+
+.ant-drawer-extra {
+  flex: 1 1 !important;
+}
+
+.ant-badge-count{
+  background: #069d12 !important;
+}

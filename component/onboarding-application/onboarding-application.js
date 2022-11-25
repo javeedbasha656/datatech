@@ -4,7 +4,10 @@ import {
     Select, Card, Spin, message
 } from 'antd';
 import { useEffect, useState } from 'react'
-import { DomainAPIURL, SubDomainAPIURL, SubmitAppAPIURL } from '../../endPointsURL';
+import {
+    DomainAPIURL, SubDomainAPIURL,
+    SubmitAppAPIURL
+} from '../../endPointsURL';
 import { useRouter } from 'next/router'
 
 const { Option } = Select;
@@ -19,7 +22,7 @@ function OnboardingApp(props) {
     const [btnLoading, setbtnLoading] = useState(false)
     const [form] = Form.useForm();
 
-    
+
     //function get domain list from api
     const getDomainApi = async () => {
         await fetch(`${DomainAPIURL}?isActive=true`, {
@@ -48,13 +51,8 @@ function OnboardingApp(props) {
         setsubdomain([])
         const value = (id === undefined) || (id === "") ? "" : id
 
-        var obj = {
-            domain: value
-        }
-
-        await fetch(SubDomainAPIURL, {
-            method: 'POST',
-            body: JSON.stringify(obj),
+        await fetch(`${SubDomainAPIURL}?domain=${value}&isActive=true`, {
+            method: 'GET',
             headers: {
                 "Content-Type": "application/json",
             },

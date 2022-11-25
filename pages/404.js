@@ -1,7 +1,5 @@
-import Image from 'next/image'
 import styles from '../styles/Pages.module.css'
-import PageNotFound from '../public/images/notfound.svg'
-import { Button } from 'antd';
+import { Button, Result } from 'antd';
 import Router from 'next/router'
 
 function Notfound() {
@@ -9,30 +7,20 @@ function Notfound() {
         <div className={`${styles.containerLayout1} container-fluid`}>
             <div className="row">
                 <div className='col-md-12'>
-                    <div className='text-center'
-                        style={{ marginTop: '30px' }}>
-                        <Image
-                            src={PageNotFound}
-                            alt="Empty home"
-                            width={300}
-                            height={300}
-                        />
-                        <h3 className={'notfound'}>{`Oooopss...!`}</h3>
-                        <h5
-                            className={'notfoundtext'}>
-                            {`Your directed page is not found!`}
-                        </h5>
-                        <Button
-                            type="primary"
-                            htmlType="submit"
+                    <Result
+                        status="404"
+                        title="404"
+                        subTitle="Sorry, the page you visited does not exist."
+                        extra={<Button type="primary"
                             onClick={() => Router.push('/')}
-                            className={'submitbtn homebtn'}>
-                            Go Home
-                        </Button>
-                    </div>
+                            className={'submitbtn homebtn'}
+                        >Back Home</Button>}
+                    />
                 </div>
             </div>
         </div>
+
+
     )
 }
 

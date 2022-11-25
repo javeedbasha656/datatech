@@ -66,13 +66,8 @@ function OnboardingTopicForm(props) {
         setsubdomain([])
         const value = (id === undefined) || (id === "") ? "" : id
 
-        var obj = {
-            domain: value
-        }
-
-        await fetch(SubDomainAPIURL, {
-            method: 'POST',
-            body: JSON.stringify(obj),
+        await fetch(`${SubDomainAPIURL}?domain=${value}&isActive=true`, {
+            method: 'GET',
             headers: {
                 "Content-Type": "application/json",
             },
@@ -89,6 +84,7 @@ function OnboardingTopicForm(props) {
                 setsubloading(false)
             });
     }
+
 
     const getAppCodeApi = async (domainid, subid) => {
         console.log(domainid, subid)

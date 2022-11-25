@@ -15,7 +15,7 @@ async function handler(req, res) {
             let domainCode = req.query.domain
             // logger(uuid, 'Step 1 - Get Domain Api called', '', req.method, '')
             let queryData = await dbQueries()
-            let connPool = await dbConnection(query)
+            let connPool = await dbConnection()
             if (domainCode) {
                 query = queryData.getDomainByCode
                 result = await connPool.request().input('domainCode', domainCode).query(query);
@@ -25,7 +25,7 @@ async function handler(req, res) {
                 result = await connPool.request().input('isActive', 'Y').query(query);
             }
             else {
-                query = queryData.getDomainMaster
+                query = queryData.getDomainMstr
                 result = await connPool.request().query(query);
             }
             connPool.close()

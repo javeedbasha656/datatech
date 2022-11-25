@@ -3,26 +3,29 @@ import 'antd/dist/antd.css';
 import 'bootstrap/dist/css/bootstrap.css'
 import { createContext, useEffect } from "react";
 import {
-  Layout, Menu, Switch,
-  Button
+  Layout, Menu, Button
 } from 'antd';
 import { useState } from 'react';
 import {
   CloseOutlined,
   MenuOutlined,
 } from '@ant-design/icons';
-import Footer from '../component/footer/footer'
-import Profile from '../component/common/profile'
 import { MenuItems, } from '../component/common/menuItems';
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-// import useRouter from 'next/router'
+import dynamic from 'next/dynamic'
 
+const Footer = dynamic(() => import("../component/footer/footer"), {
+  ssr: false,
+})
+
+const Profile = dynamic(() => import("../component/common/profile"), {
+  ssr: false,
+})
 
 export const ThemeContext = createContext(null);
 
 const { Header, Content, Sider } = Layout;
-
 
 function MyApp({ Component, pageProps }) {
 
@@ -36,7 +39,6 @@ function MyApp({ Component, pageProps }) {
     console.log(value);
     setTheme(value ? "dark" : "light");
   };
-
 
   const ContentAlign = {
     marginLeft: '200px',

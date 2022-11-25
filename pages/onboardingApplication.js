@@ -1,9 +1,13 @@
-import OnboardingApp from '../component/onboarding-application/onboarding-application'
 import styles from '../styles/Pages.module.css'
 import { Button } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
 
+const OnboardingApp = dynamic(() => import("../component/onboarding-application/onboarding-application"), {
+    // Do not import in server side
+    ssr: false,
+  })
 
 function OnboardingApplication() {
 

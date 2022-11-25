@@ -4,42 +4,43 @@ import { dbConnection } from '../../../services/db_connections'
 import { dbQueries } from '../../../services/common'
 import moment from 'moment'
 
+// Api to fetch active subdomain records based on domain code
 async function handler(req, res) {
+    if (req.method == 'GET') {
+        let domain = req.query.domain
+        try {
+            let result, query
+            let queries = await dbQueries()
+            let connPool = await dbConnection()
 
-    if (req.method == 'POST') {
-        let body = req.body
-        let domain = body.domain
-        if (domain) {
-            try {
-                let queries = await dbQueries()
-                let query = queries.getSubDomain
-                // console.log("Query: ", query)
-
-                let connPool = await dbConnection()
-                let result = await connPool.request()
-                    .input('domain', domain)
-                    .input('isActive', 'Y')
-                    .query(query);
-
-                connPool.close()
-                // console.log("End time: ", moment().format('DD-MM-YYYY hh:mm:ss'))
-                let subDomainList = result.recordset
-
-                if (_.isArray(subDomainList) && subDomainList.length > 0) {
-                    res.status(200).json({ message: 'Success', data: subDomainList })
-                } else {
-                    res.status(200).json({ message: 'Data not found', data: [] })
-                }
-            } catch (err) {
-                console.log("Err: ", err)
-                res.status(500).json({ message: 'Something went wrong...please try again later' })
+            if (req.query.domain && req.query.isActive) {
+                query = queries.getSubDomainByStatus
+                result = await connPool.request().input('domain', domain).input('isActive', 'Y').query(query);
             }
-        } else {
-            res.status(500).json({ message: 'Invalid domain passed' })
+            else if (req.query.domain) {
+                query = queries.getSubDomain
+                result = await connPool.request().input('domain', domain).query(query);
+            }
+            else {
+                query = queries.getSubDomainMstr
+                result = await connPool.request().query(query);
+            }
+
+            connPool.close()
+
+            let subDomainList = result.recordset
+            if (_.isArray(subDomainList) && subDomainList.length > 0) {
+                res.status(200).json({ message: 'Success', data: subDomainList })
+            } else {
+                res.status(200).json({ message: 'Data not found', data: [] })
+            }
+        } catch (err) {
+            console.log("Err: ", err)
+            res.status(500).json({ message: 'Something went wrong' })
         }
 
     } else {
-        res.status(500).json({ message: 'Only POST request allowed' })
+        res.status(500).json({ message: 'Only GET request allowed' })
     }
 
 }
